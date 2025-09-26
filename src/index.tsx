@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app.tsx';
-import {getAllCards} from './api/CitiesCardInfo.tsx';
+import {getAllCards} from './api/cities-cardInfo.ts';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

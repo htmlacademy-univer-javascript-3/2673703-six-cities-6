@@ -1,5 +1,5 @@
-﻿import {CitiesCardProps} from '../components/cities-card/cities-card.props.tsx';
-import {CardType} from '../components/cities-card/cities-card.props.tsx';
+﻿import {CitiesCardProps} from '../components/cities-card/cities-card.props.ts';
+import {CardType} from '../components/cities-card/cities-card.props.ts';
 
 
 const allCards : CitiesCardProps[] = [

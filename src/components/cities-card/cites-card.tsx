@@ -1,4 +1,4 @@
-﻿import {CitiesCardProps} from './cities-card.props.tsx';
+﻿import {CitiesCardProps} from './cities-card.props.ts';
 
 function CitesCard({mark, cardName, bookmark, cardType, priceValue, imgPath} : CitiesCardProps) {
   return (

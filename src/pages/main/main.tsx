@@ -1,5 +1,5 @@
 ﻿import CitesCard from '../../components/cities-card/cites-card.tsx';
-import {getAllCards} from '../../api/CitiesCardInfo.tsx';
+import {getAllCards} from '../../api/cities-cardInfo.ts';
 import {BookingInfo} from '../../index.tsx';
 
 

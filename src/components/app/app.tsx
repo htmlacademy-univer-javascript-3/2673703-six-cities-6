@@ -9,37 +9,36 @@ import PrivateRoute from '../private-route/private-route.tsx';
 import Favorites from '../../pages/favorites/favorites.tsx';
 
 
-function App({bookingOffers} : BookingInfo) {
-  return(
+function App({bookingOffers}: BookingInfo) {
+  return (
     <BrowserRouter>
       <Routes>
         <Route
           path={AppRoute.Main}
-          element={<Main bookingOffers={bookingOffers} />}
+          element={<Main bookingOffers={bookingOffers}/>}
         />
 
         <Route
           path={AppRoute.Login}
-          element={<Login />}
+          element={<Login/>}
         />
 
         <Route
           path={AppRoute.Favorites}
           element={
             <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
-              <Favorites />
+              <Favorites/>
             </PrivateRoute>
           }
         />
 
 
-        <Route path={AppRoute.Offer} element={<Offer />}>
-          <Route path={':id'} element={<Offer />} />
-        </Route>
+        <Route path={`${AppRoute.Offer}/:id`} element={<Offer/>}/>
+
 
         <Route
           path={'*'}
-          element={<NotFound />}
+          element={<NotFound/>}
         />
       </Routes>
     </BrowserRouter>

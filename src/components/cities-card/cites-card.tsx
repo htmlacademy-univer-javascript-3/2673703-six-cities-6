@@ -1,4 +1,6 @@
 ﻿import {OfferProps} from '../../types/offer.ts';
+import {Link} from 'react-router-dom';
+import {AppRoute} from '../../cosnt.ts';
 
 type CitesCardComponentProps = {
   offer: OfferProps;
@@ -7,7 +9,7 @@ type CitesCardComponentProps = {
 }
 
 function CitesCard({offer, onMouseEnter, onMouseLeave}: CitesCardComponentProps) {
-  const {isPremium, isFavorite, previewImage, price, title, type} = offer;
+  const {isPremium, isFavorite, previewImage, price, title, type, id} = offer;
 
   return (
     <article className="cities__card place-card" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
@@ -18,9 +20,9 @@ function CitesCard({offer, onMouseEnter, onMouseLeave}: CitesCardComponentProps)
         </div>
       }
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <a href="#">
+        <Link to={`${AppRoute.Offer}/${id}`}>
           <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place image" />
-        </a>
+        </Link>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">

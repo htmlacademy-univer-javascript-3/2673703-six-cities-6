@@ -1,6 +1,21 @@
-﻿
+﻿import {OfferProps} from '../../types/offer.ts';
+import {useParams} from 'react-router-dom';
 
-function Offer() {
+type OfferPageProps = {
+  offers: OfferProps[];
+}
+
+
+function Offer({offers}: OfferPageProps) {
+
+  const { id } = useParams<{ id: string }>();
+  const offer = offers.find((e) => e.id === id);
+  if (offer === undefined) {
+    return (
+      <h1>Такого предложения нет</h1>
+    );
+  }
+
   return (
     <div className="page">
       <header className="header">
@@ -36,34 +51,27 @@ function Offer() {
         <section className="offer">
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
-              <div className="offer__image-wrapper">
-                <img className="offer__image" src="img/room.jpg" alt="Photo studio"/>
-              </div>
-              <div className="offer__image-wrapper">
-                <img className="offer__image" src="img/apartment-01.jpg" alt="Photo studio"/>
-              </div>
-              <div className="offer__image-wrapper">
-                <img className="offer__image" src="img/apartment-02.jpg" alt="Photo studio"/>
-              </div>
-              <div className="offer__image-wrapper">
-                <img className="offer__image" src="img/apartment-03.jpg" alt="Photo studio"/>
-              </div>
-              <div className="offer__image-wrapper">
-                <img className="offer__image" src="img/studio-01.jpg" alt="Photo studio"/>
-              </div>
-              <div className="offer__image-wrapper">
-                <img className="offer__image" src="img/apartment-01.jpg" alt="Photo studio"/>
-              </div>
+              {
+                offer.images.map((picture) => (
+                  <div className="offer__image-wrapper" key={picture}>
+                    <img className="offer__image" src={picture} alt="Photo studio"/>
+                  </div>
+                ))
+              }
             </div>
           </div>
           <div className="offer__container container">
             <div className="offer__wrapper">
-              <div className="offer__mark">
-                <span>Premium</span>
-              </div>
+              {
+                offer.isPremium &&
+                <div className="offer__mark">
+                  <span>Premium</span>
+                </div>
+
+              }
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">
-                  Beautiful &amp; luxurious studio at great location
+                  {offer.title}
                 </h1>
                 <button className="offer__bookmark-button button" type="button">
                   <svg className="offer__bookmark-icon" width="31" height="33">
@@ -74,10 +82,10 @@ function Offer() {
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
-                  <span style={{width: '80%'}}></span>
+                  <span style={{width: `${offer.rating * 100 / 5}%`}}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
-                <span className="offer__rating-value rating__value">4.8</span>
+                <span className="offer__rating-value rating__value">{offer.rating}</span>
               </div>
               <ul className="offer__features">
                 <li className="offer__feature offer__feature--entire">

@@ -1,4 +1,6 @@
 ﻿import {OfferProps} from '../../types/offer.ts';
+import {Link} from 'react-router-dom';
+import {AppRoute} from '../../cosnt.ts';
 
 type FavoriteCardProps = {
   offer: OfferProps;
@@ -15,11 +17,11 @@ function FavoriteCard({offer}: FavoriteCardProps) {
           </div>
         }
         <div className="favorites__image-wrapper place-card__image-wrapper">
-          <a href="#">
+          <Link to={`${AppRoute.Offer}/${offer.id}`}>
             <img className="place-card__image" src={offer.previewImage} width="150" height="110"
               alt="Place image"
             />
-          </a>
+          </Link>
         </div>
         <div className="favorites__card-info place-card__info">
           <div className="place-card__price-wrapper">

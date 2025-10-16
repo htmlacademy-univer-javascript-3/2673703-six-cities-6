@@ -8,14 +8,14 @@ type OfferListProps = {
 }
 
 function OfferList({offers}: OfferListProps) {
-  const [enterFlag, setEnterFlag] = useState<string | null>(null);
+  const [chosenId, setChosenId] = useState<string | null>(null);
   return (
     <>
       {offers.map((card) => (
         <CitesCard key={card.id}
           offer={card}
-          onMouseEnter={() => setEnterFlag(card.id)}
-          onMouseLeave={() => setEnterFlag(null)}
+          onMouseEnter={() => setChosenId(card.id)}
+          onMouseLeave={() => setChosenId(null)}
         />
       ))}
     </>

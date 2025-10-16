@@ -8,7 +8,7 @@ type OfferListProps = {
 }
 
 function OfferList({offers}: OfferListProps) {
-  const [chosenId, setChosenId] = useState<string | null>(null);
+  const [chosenId, setChosenId] = useState<OfferProps['id'] | null>(null);
   return (
     <>
       {offers.map((card) => (

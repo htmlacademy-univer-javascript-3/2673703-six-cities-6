@@ -33,7 +33,7 @@ export const offers: OfferProps[] = [
       'Laptop friendly workspace'
     ],
     host: {
-      name: 'Angelina',
+      name: 'Evgenia',
       avatarUrl: 'https://14.design.htmlacademy.pro/static/host/avatar-angelina.jpg',
       isPro: true
     },
@@ -86,7 +86,7 @@ export const offers: OfferProps[] = [
     ],
     host: {
       isPro: true,
-      name: 'Angelina',
+      name: 'Kora',
       avatarUrl: 'https://14.design.htmlacademy.pro/static/host/avatar-angelina.jpg'
     },
     isPremium: false,

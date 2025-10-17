@@ -1,42 +1,52 @@
-﻿import {CitiesCardProps} from './cities-card.props.ts';
+﻿import {OfferProps} from '../../types/offer.ts';
+import {Link} from 'react-router-dom';
+import {AppRoute} from '../../cosnt.ts';
 
-function CitesCard({mark, cardName, bookmark, cardType, priceValue, imgPath} : CitiesCardProps) {
+type CitesCardComponentProps = {
+  offer: OfferProps;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
+}
+
+function CitesCard({offer, onMouseEnter, onMouseLeave}: CitesCardComponentProps) {
+  const {isPremium, isFavorite, previewImage, price, title, type, id} = offer;
+
   return (
-    <article className="cities__card place-card">
+    <article className="cities__card place-card" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
       {
-        mark &&
+        isPremium &&
         <div className="place-card__mark">
           <span>Premium</span>
         </div>
       }
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <a href="#">
-          <img className="place-card__image" src={imgPath} width="260" height="200" alt="Place image" />
-        </a>
+        <Link to={`${AppRoute.Offer}/${id}`}>
+          <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place image" />
+        </Link>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
-            <b className="place-card__price-value">&euro;{priceValue}</b>
+            <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={`place-card__bookmark-button ${bookmark ? 'place-card__bookmark-button--active' : ''} button`} type="button">
+          <button className={`place-card__bookmark-button ${isFavorite ? 'place-card__bookmark-button--active' : ''} button`} type="button">
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
-            <span className="visually-hidden">{bookmark}</span>
+            <span className="visually-hidden">{isFavorite}</span>
           </button>
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: '80%'}}></span>
+            <span style={{width: `${offer.rating * 100 / 5}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">{cardName}</a>
+          <a href="#">{title}</a>
         </h2>
-        <p className="place-card__type">{cardType}</p>
+        <p className="place-card__type">{type}</p>
       </div>
     </article>
   );

@@ -1,19 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app.tsx';
-import {getAllCards} from './api/cities-cardInfo.ts';
+import {offers} from './mocks/offers.ts';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-export type BookingInfo = {
-  bookingOffers : number;
-}
-
-//const bookingOffers = getAllCards();
 root.render(
   <React.StrictMode>
-    <App bookingOffers={getAllCards().length} />
+    <App offers={offers} />
   </React.StrictMode>
 );

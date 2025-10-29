@@ -1,4 +1,4 @@
-﻿import {AppRoute, AuthorizationStatus} from '../../cosnt.ts';
+﻿import {AppRoute, AuthorizationStatus} from '../../const.ts';
 import {Navigate} from 'react-router-dom';
 
 

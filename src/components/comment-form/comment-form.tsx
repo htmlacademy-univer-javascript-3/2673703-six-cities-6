@@ -1,5 +1,5 @@
 ﻿import {ChangeEvent, Fragment, useState} from 'react';
-import {maxCommentLength, minCommentLength} from '../../cosnt.ts';
+import {MAX_COMMENT_LENGTH, MIN_COMMENT_LENGTH} from '../../const.ts';
 
 
 const ratingMap = {
@@ -11,21 +11,24 @@ const ratingMap = {
 };
 
 function CommentForm() {
-  const [comment, setComment] = useState('');
-  const [rating, setRating] = useState('');
+  const [form, setForm] = useState({
+    comment: '',
+    rating: '',
+  });
 
-  const isValid = comment.length >= minCommentLength &&
-    comment.length <= maxCommentLength &&
-    rating !== '';
+  const isValid = form.comment.length >= MIN_COMMENT_LENGTH &&
+    form.comment.length <= MAX_COMMENT_LENGTH &&
+    form.rating !== '';
 
+  function handleFormChange(evt: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) {
+    const {name, value} = evt.target;
 
-  function handleTextareaChange(evt: ChangeEvent<HTMLTextAreaElement>) {
-    setComment(evt.target.value);
+    setForm((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   }
 
-  function handleInputChange(evt: ChangeEvent<HTMLInputElement>){
-    setRating(evt.target.value);
-  }
 
   return (
     <form className="reviews__form form" action="#" method="post">
@@ -40,8 +43,8 @@ function CommentForm() {
                 value={score}
                 id={status}
                 type="radio"
-                checked={rating === score}
-                onChange={handleInputChange}
+                checked={form.rating === score}
+                onChange={handleFormChange}
               />
 
               <label htmlFor={status} className="reviews__rating-label form__rating-label" title={status}>
@@ -55,15 +58,15 @@ function CommentForm() {
       </div>
       <textarea className="reviews__textarea form__textarea" id="review" name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
-        value={comment}
-        onChange={handleTextareaChange}
+        value={form.comment}
+        onChange={handleFormChange}
       >
       </textarea>
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
           To submit review please make sure to set <span className="reviews__star">rating</span> and
           describe your
-          stay with at least <b className="reviews__text-amount">50 characters</b>.
+          stay with at least <b className="reviews__text-amount">{MIN_COMMENT_LENGTH} characters</b>.
         </p>
         <button className="reviews__submit form__submit button" type="submit" disabled={!isValid}>Submit</button>
       </div>

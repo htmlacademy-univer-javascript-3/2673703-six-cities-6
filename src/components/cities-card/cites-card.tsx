@@ -1,6 +1,6 @@
 ﻿import {OfferProps} from '../../types/offer.ts';
 import {Link} from 'react-router-dom';
-import {AppRoute} from '../../cosnt.ts';
+import {AppRoute} from '../../const.ts';
 
 type CitesCardComponentProps = {
   offer: OfferProps;

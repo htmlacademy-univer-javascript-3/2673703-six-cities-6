@@ -1,5 +1,7 @@
 ﻿import {OfferProps} from '../../types/offer.ts';
 import OfferList from '../../components/offer-list/offer-list.tsx';
+import {useState} from 'react';
+import Map from '../../components/map/map.tsx';
 
 
 type MainProps = {
@@ -8,6 +10,7 @@ type MainProps = {
 
 
 function Main({offers}: MainProps) {
+  const [chosenId, setChosenId] = useState<OfferProps['id'] | null>(null);
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -79,7 +82,15 @@ function Main({offers}: MainProps) {
         </div>
         <div className="cities">
           <div className="cities__places-container container">
-            <OfferList offers={offers} />
+            <OfferList
+              offers={offers}
+              setChosenId={setChosenId}
+            />
+            <Map
+              chosenId={chosenId}
+              city={offers[0].city}
+              offers={offers}
+            />
           </div>
         </div>
       </main>

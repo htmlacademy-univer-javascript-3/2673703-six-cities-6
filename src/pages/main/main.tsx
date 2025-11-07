@@ -86,11 +86,15 @@ function Main({offers}: MainProps) {
               offers={offers}
               setChosenId={setChosenId}
             />
-            <Map
-              chosenId={chosenId}
-              city={offers[0].city}
-              offers={offers}
-            />
+            <div className="cities__right-section">
+              <Map
+                chosenId={chosenId}
+                city={offers[0].city}
+                offers={offers}
+                className={'cities__right-section'}
+              />
+            </div>
+
           </div>
         </div>
       </main>

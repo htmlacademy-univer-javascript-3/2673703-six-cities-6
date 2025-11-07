@@ -204,3 +204,5 @@ export const offers: OfferProps[] = [
   }
 
 ];
+
+export const get3Offers = () => offers.slice(0, 3);

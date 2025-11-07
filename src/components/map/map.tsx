@@ -11,9 +11,10 @@ type MapProps = {
   chosenId: string | null;
   city: CityProps;
   offers: OfferProps[];
+  className: string;
 };
 
-function Map({chosenId, city, offers}: MapProps) {
+function Map({chosenId, city, offers, className}: MapProps) {
   const mapRef: MutableRefObject<null | HTMLDivElement> = useRef(null);
   const map = useMap(mapRef, city);
 
@@ -46,9 +47,7 @@ function Map({chosenId, city, offers}: MapProps) {
   }, [map, offers, chosenId]);
 
   return (
-    <div className="cities__right-section">
-      <section className='cities__map map' ref={mapRef}></section>
-    </div>
+    <section className={`${className} map`} ref={mapRef}></section>
   );
 }
 

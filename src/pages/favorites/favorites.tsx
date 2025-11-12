@@ -1,9 +1,12 @@
 ﻿import {OfferProps} from '../../types/offer.ts';
 import FavoriteCard from '../../components/favorite-card/favorite-card.tsx';
-import {getOffers} from '../../mocks/offers.ts';
 import Header from '../../components/header/header.tsx';
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const.ts';
+
+type FavoritesProps = {
+  offers: OfferProps[];
+}
 
 function groupCards(offers: OfferProps[]) {
   const favoritesOffers = offers.filter((card) => card.isFavorite);
@@ -19,8 +22,7 @@ function groupCards(offers: OfferProps[]) {
   return map;
 }
 
-function Favorites() {
-  const offers = getOffers();
+function Favorites({offers}: FavoritesProps) {
   const groupedCards = groupCards(offers);
   return (
     <div className="page">

@@ -1,13 +1,15 @@
 ﻿import {OfferProps} from '../../types/offer.ts';
 import NeighbourhoodCard from '../neighbourhood-card/neighbourhood-card.tsx';
+import {useAppSelector} from '../../hooks';
 
 
 type NeighbourhoodListProps = {
-  offers: OfferProps[];
   setChosenId: (id: OfferProps['id'] | null) => void;
 }
 
-function NeighbourhoodList({offers, setChosenId}: NeighbourhoodListProps) {
+function NeighbourhoodList({setChosenId}: NeighbourhoodListProps) {
+  const offers = useAppSelector((state) => state.offers).slice(0, 3);
+
   return (
     <div className="container">
       <section className="near-places places">

@@ -1,17 +1,25 @@
 ﻿import {OfferProps} from '../../types/offer.ts';
 import CitesCard from '../cities-card/cites-card.tsx';
+import {useAppSelector} from '../../hooks';
+import MainEmpty from '../../pages/main/main-empty.tsx';
 
 
 type OfferListProps = {
-  offers: OfferProps[];
   setChosenId: (id: OfferProps['id'] | null) => void;
 }
 
-function OfferList({offers, setChosenId}: OfferListProps) {
+function OfferList({setChosenId}: OfferListProps) {
+  const currentCity = useAppSelector((state) => state.city);
+
+  const offers = useAppSelector((state) => state.offers);
+  if (offers.length === 0) {
+    return <MainEmpty />;
+  }
+
   return (
     <section className="cities__places places">
       <h2 className="visually-hidden">Places</h2>
-      <b className="places__found">{offers.length} places to stay in Amsterdam</b>
+      <b className="places__found">{offers.length} places to stay in {currentCity.name}</b>
       <form className="places__sorting" action="#" method="get">
         <span className="places__sorting-caption">Sort by</span>
         <span className="places__sorting-type" tabIndex={0}>

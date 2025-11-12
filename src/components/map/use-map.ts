@@ -29,6 +29,15 @@ function useMap(mapRef: MutableRefObject<null | HTMLDivElement>, city: CityProps
 
   }, [mapRef, city]);
 
+  useEffect(() => {
+    if (map) {
+      map.setView(
+        [city.location.latitude, city.location.longitude],
+        city.location.zoom
+      );
+    }
+  }, [map, city]);
+
   return map;
 }
 

@@ -18,7 +18,7 @@ function App({offers}: AppProps) {
       <Routes>
         <Route
           path={AppRoute.Main}
-          element={<Main offers={offers}/>}
+          element={<Main />}
         />
 
         <Route

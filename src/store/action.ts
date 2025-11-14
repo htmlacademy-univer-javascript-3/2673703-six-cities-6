@@ -2,6 +2,7 @@
 import {Action} from '../const.ts';
 import {CityProps} from '../types/city.ts';
 import {OfferProps} from '../types/offer.ts';
+import {SortingOption} from '../types/sorting-option.ts';
 
 
 export const changeCity = createAction(Action.CHANGE_CITY, (city: CityProps) => (
@@ -12,5 +13,10 @@ export const changeCity = createAction(Action.CHANGE_CITY, (city: CityProps) => 
 export const fillOffer = createAction(Action.FILL_OFFER, (offers: OfferProps[]) => (
   {
     payload: offers
+  }
+));
+export const changeSorting = createAction(Action.CHANGE_SORTING, (sortingOption: SortingOption) => (
+  {
+    payload: sortingOption
   }
 ));

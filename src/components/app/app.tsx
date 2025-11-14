@@ -23,7 +23,7 @@ function App({offers}: AppProps) {
 
         <Route
           path={AppRoute.Login}
-          element={<Login/>}
+          element={<Login />}
         />
 
         <Route
@@ -36,7 +36,10 @@ function App({offers}: AppProps) {
         />
 
 
-        <Route path={`${AppRoute.Offer}/:id`} element={<Offer offers={offers}/>}/>
+        <Route
+          path={`${AppRoute.Offer}/:id`}
+          element={<Offer offers={offers}/>}
+        />
 
 
         <Route

@@ -2,7 +2,7 @@
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {changeCity, changeSorting, fillOffer} from '../../store/action.ts';
 import {getOffers} from '../../mocks/offers.ts';
-import {SortingOptionVariants} from "../../const.ts";
+import {SortingOptionVariants} from '../../const.ts';
 
 type CityListProps = {
   cities: CityProps[];

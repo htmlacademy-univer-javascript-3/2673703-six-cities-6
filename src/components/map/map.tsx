@@ -1,20 +1,20 @@
 ﻿import {MutableRefObject, useEffect, useRef} from 'react';
 import useMap from './use-map.ts';
-import {CityProps} from '../../types/city.ts';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import {URL_MARKER_CURRENT, URL_MARKER_DEFAULT} from '../../const.ts';
-import {OfferProps} from '../../types/offer.ts';
+import {useAppSelector} from '../../hooks';
 
 
 type MapProps = {
   chosenId: string | null;
-  city: CityProps;
-  offers: OfferProps[];
   className: string;
 };
 
-function Map({chosenId, city, offers, className}: MapProps) {
+function Map({chosenId, className}: MapProps) {
+  const city = useAppSelector((state) => state.city);
+  const offers = useAppSelector((state) => state.offers);
+
   const mapRef: MutableRefObject<null | HTMLDivElement> = useRef(null);
   const map = useMap(mapRef, city);
 

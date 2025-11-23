@@ -13,7 +13,8 @@ type MapProps = {
 
 function Map({chosenId, className}: MapProps) {
   const city = useAppSelector((state) => state.city);
-  const offers = useAppSelector((state) => state.offers);
+  const offers = useAppSelector((state) => state.offers)
+    .filter((offer) => offer.city.name === city.name);
 
   const mapRef: MutableRefObject<null | HTMLDivElement> = useRef(null);
   const map = useMap(mapRef, city);
@@ -31,20 +32,30 @@ function Map({chosenId, className}: MapProps) {
     iconAnchor: [20, 40],
   });
 
+  const markersRef = useRef<leaflet.Marker[]>([]);
+
   useEffect(() => {
     if (map) {
+      markersRef.current.forEach((marker) => marker.remove());
+      markersRef.current = [];
+
       offers.forEach((offer) => {
-        leaflet.marker({
-          lat: offer.location.latitude,
-          lng: offer.location.longitude,
-        }, {
-          icon: (offer.id === chosenId)
-            ? currentCustomIcon
-            : defaultCustomIcon
-        }).addTo(map);
+        const icon = offer.id === chosenId ? currentCustomIcon : defaultCustomIcon;
+
+        const marker = leaflet
+          .marker(
+            {
+              lat: offer.location.latitude,
+              lng: offer.location.longitude,
+            },
+            { icon }
+          )
+          .addTo(map);
+
+        markersRef.current.push(marker);
       });
     }
-  }, [map, offers, chosenId]);
+  }, [map, offers, chosenId, city]);
 
   return (
     <section className={`${className} map`} ref={mapRef}></section>

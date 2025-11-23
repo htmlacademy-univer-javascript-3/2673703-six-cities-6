@@ -7,12 +7,23 @@ import {AppRoute, AuthorizationStatus} from '../../const.ts';
 import PrivateRoute from '../private-route/private-route.tsx';
 import Favorites from '../../pages/favorites/favorites.tsx';
 import {OfferProps} from '../../types/offer.ts';
+import {useAppSelector} from '../../hooks';
+import Spinner from '../spinner/spinner.tsx';
 
 type AppProps = {
   offers: OfferProps[];
 }
 
 function App({offers}: AppProps) {
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const isOffersLoading = useAppSelector((state) => state.isOffersLoading);
+
+  if (authorizationStatus === AuthorizationStatus.Unknow || isOffersLoading) {
+    return (
+      <Spinner size={60} />
+    );
+  }
+
   return (
     <BrowserRouter>
       <Routes>

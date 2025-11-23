@@ -1,16 +1,17 @@
-﻿import {OfferProps} from '../../types/offer.ts';
-import CitesCard from '../cities-card/cites-card.tsx';
+﻿import CitesCard from '../cities-card/cites-card.tsx';
 import {useAppSelector} from '../../hooks';
 import MainEmpty from '../../pages/main/main-empty.tsx';
 import SortingOptions from '../sorting-options/sorting-options.tsx';
 import {getSortedOffers} from '../../utils/get-sorted-offers.ts';
+import {CitiesCardProps} from '../../types/cities-card.ts';
 
 
 type OfferListProps = {
-  setChosenId: (id: OfferProps['id'] | null) => void;
+  setChosenId: (id: CitiesCardProps['id'] | null) => void;
 }
 
 function OfferList({setChosenId}: OfferListProps) {
+
   const currentCity = useAppSelector((state) => state.city);
   const currenSorting = useAppSelector((state) => state.sortingOption);
 
@@ -19,7 +20,8 @@ function OfferList({setChosenId}: OfferListProps) {
     return <MainEmpty />;
   }
 
-  const offers = getSortedOffers(offersFromServer, currenSorting);
+  const offers = getSortedOffers(offersFromServer, currenSorting)
+    .filter((offer) => offer.city.name === currentCity.name);
 
   return (
     <section className="cities__places places">

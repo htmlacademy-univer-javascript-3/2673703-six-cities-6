@@ -1,8 +1,10 @@
-﻿export enum AppRoute {
+﻿
+export enum AppRoute {
   Main = '/',
   Login = '/login',
   Favorites = '/favorites',
-  Offer = '/offer'
+  Offer = '/offer',
+  NotFound = '/notFound',
 }
 
 export enum AuthorizationStatus {
@@ -26,8 +28,13 @@ export const Action = {
   REQUIRE_AUTHORIZATION: 'REQUIRE_AUTHORIZATION',
   SET_ERROR: 'SET_ERROR',
   CHANGE_LOADING_STATUS: 'CHANGE_LOADING_STATUS',
+  CHANGE_CURRENT_LOADING_STATUS: 'CHANGE_CURRENT_LOADING_STATUS',
   SET_USER_EMAIL: 'SET_USER_EMAIL',
   REDIRECT: 'REDIRECT',
+  LOAD_CURRENT_OFFER: 'LOAD_CURRENT_OFFER',
+  FILL_COMMENTS: 'FILL_COMMENTS',
+  CHANGE_COMMENT_LOADING_STATUS: 'CHANGE_COMMENT_LOADING_STATUS',
+  LOAD_COMMENTS: 'LOAD_COMMENTS',
 } as const;
 
 export const SortingOptionVariants = {
@@ -49,6 +56,7 @@ export enum APIRoute {
   Offers = '/offers',
   Login = '/login',
   Logout = '/logout',
+  Comments = '/comments',
 }
 
 

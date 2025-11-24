@@ -5,7 +5,10 @@ import {APIRoute, AppRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR} from '../co
 import {OfferProps} from '../types/offer.ts';
 import {AppDispatch} from '../types/state.ts';
 import {
-  changeLoadingStatus,
+  changeCommentLoadingStatus,
+  changeCurrentOfferLoadingStatus,
+  changeOffersLoadingStatus, fillComments,
+  loadCurrentOffer,
   loadOffers,
   redirectToRoute,
   requireAuthorization,
@@ -16,6 +19,8 @@ import {AuthData} from '../types/auth-data.ts';
 import {dropToken, setToken} from '../services/token.ts';
 import {UserProps} from '../types/user.ts';
 import {store} from './index.ts';
+import {CommentProps} from '../types/comment.ts';
+import {CommentData} from '../types/comment-data.ts';
 
 
 type Extra = {
@@ -26,20 +31,47 @@ type Extra = {
 export const fetchOffers = createAsyncThunk<void, undefined, Extra>(
   'data/fetchOffers',
   async (_arg, {dispatch, extra: api}) => {
-    dispatch(changeLoadingStatus(true));
+    dispatch(changeOffersLoadingStatus(true));
     const {data} = await api.get<CitiesCardProps[]>(APIRoute.Offers);
-    dispatch(changeLoadingStatus(false));
+    dispatch(changeOffersLoadingStatus(false));
     dispatch(loadOffers(data));
   }
 );
 
 
-export const fetchOffer = createAsyncThunk<OfferProps, OfferProps['id'], Extra>(
+export const fetchOffer = createAsyncThunk<void, OfferProps['id'], Extra>(
   'data/fetchOffer',
-  async (offerId, {extra: api}) => {
-    const {data} = await api.get<OfferProps>(`${APIRoute.Offers}/${offerId}`);
+  async (offerId, {dispatch, extra: api}) => {
+    dispatch(changeCurrentOfferLoadingStatus(true));
+    try{
+      const {data} = await api.get<OfferProps>(`${APIRoute.Offers}/${offerId}`);
+      dispatch(loadCurrentOffer(data));
+    } catch (err) {
+      dispatch(redirectToRoute(AppRoute.NotFound));
+      dispatch(loadCurrentOffer(null));
+    }
+    dispatch(changeCurrentOfferLoadingStatus(false));
+  }
+);
 
-    return data;
+export const fetchComments = createAsyncThunk<void, OfferProps['id'], Extra>(
+  'data/fetchComments',
+  async (offerId, {dispatch, extra: api}) => {
+    dispatch(changeCommentLoadingStatus(true));
+    const {data} = await api.get<CommentProps[]>(`${APIRoute.Comments}/${offerId}`);
+
+    dispatch(fillComments(data));
+    dispatch(changeCommentLoadingStatus(false));
+
+  }
+);
+
+export const sendComment = createAsyncThunk<void, CommentData, Extra>(
+  'data/sendComment',
+  async ({ id: offerId, comment, rating }, {dispatch, extra: api}) => {
+    await api.post<CommentProps>(`${APIRoute.Comments}/${offerId}`, {comment, rating: +rating});
+
+    dispatch(fetchComments(offerId));
   }
 );
 
@@ -47,8 +79,9 @@ export const checkAuthAction = createAsyncThunk<void, undefined, Extra>(
   'user/checkAuth',
   async (_arg, {dispatch, extra: api}) => {
     try {
-      await api.get(APIRoute.Login);
+      const {data} = await api.get<UserProps>(APIRoute.Login);
       dispatch(requireAuthorization(AuthorizationStatus.Auth));
+      dispatch(setUserEmail(data.email));
     } catch {
       dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
     }
@@ -85,3 +118,5 @@ export const clearErrorAction = createAsyncThunk(
     );
   }
 );
+
+

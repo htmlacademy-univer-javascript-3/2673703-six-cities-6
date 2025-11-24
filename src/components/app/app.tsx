@@ -51,7 +51,7 @@ function App({offers}: AppProps) {
 
         <Route
           path={`${AppRoute.Offer}/:id`}
-          element={<Offer offers={offers}/>}
+          element={<Offer />}
         />
 
 

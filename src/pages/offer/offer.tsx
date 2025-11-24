@@ -1,29 +1,50 @@
 ﻿import {OfferProps} from '../../types/offer.ts';
 import {useParams} from 'react-router-dom';
 import CommentsList from '../../components/comments-list/comments-list.tsx';
-import {getComments} from '../../mocks/comments.ts';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import Map from '../../components/map/map.tsx';
 import NeighbourhoodList from '../../components/neighbourhood-list/neighbourhood-list.tsx';
 import Header from '../../components/header/header.tsx';
+import {fetchComments, fetchOffer} from '../../store/api-actions.ts';
+import {useAppDispatch, useAppSelector} from '../../hooks';
+import {loadCurrentOffer} from '../../store/action.ts';
+import Spinner from '../../components/spinner/spinner.tsx';
 
-type OfferPageProps = {
-  offers: OfferProps[];
-}
 
+function Offer() {
 
-function Offer({offers}: OfferPageProps) {
-
+  const dispatch = useAppDispatch();
   const [chosenId, setChosenId] = useState<OfferProps['id'] | null>(null);
 
   const {id} = useParams<{ id: string }>();
-  const offer = offers.find((e) => e.id === id);
-  if (offer === undefined) {
+
+
+  const offerLoading = useAppSelector((state) => state.isCurrentLoading);
+  const offer = useAppSelector((state) => state.currentOffer);
+
+  const commentLoading = useAppSelector((state) => state.isCommentsLoading);
+  const comments = useAppSelector((state) => state.currentComments);
+
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchOffer(id));
+      dispatch(fetchComments(id));
+    }
+
+    return () => {
+      dispatch(loadCurrentOffer(null));
+    };
+  }, [dispatch, id]);
+
+  if (offerLoading || commentLoading) {
     return (
-      <>
-        <Header />
-        <h1>Такого предложения нет</h1>
-      </>
+      <Spinner size={60} />
+    );
+  }
+
+  if (!offer) {
+    return (
+      <h1>Такого объявления нет</h1>
     );
   }
 
@@ -125,7 +146,7 @@ function Offer({offers}: OfferPageProps) {
                   </p>
                 </div>
               </div>
-              <CommentsList comments={getComments()} />
+              <CommentsList comments={comments} />
             </div>
           </div>
           <Map

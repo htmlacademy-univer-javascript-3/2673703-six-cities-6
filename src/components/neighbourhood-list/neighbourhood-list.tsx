@@ -8,7 +8,7 @@ type NeighbourhoodListProps = {
 }
 
 function NeighbourhoodList({setChosenId}: NeighbourhoodListProps) {
-  const offers = useAppSelector((state) => state.offers).slice(0, 3);
+  const offers = useAppSelector((state) => state.currentNearby);
 
   return (
     <div className="container">

@@ -5,9 +5,9 @@ import {useEffect, useState} from 'react';
 import Map from '../../components/map/map.tsx';
 import NeighbourhoodList from '../../components/neighbourhood-list/neighbourhood-list.tsx';
 import Header from '../../components/header/header.tsx';
-import {fetchComments, fetchOffer} from '../../store/api-actions.ts';
+import {fetchComments, fetchNearby, fetchOffer} from '../../store/api-actions.ts';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {loadCurrentOffer} from '../../store/action.ts';
+import {fillComments, fillNearby, loadCurrentOffer} from '../../store/action.ts';
 import Spinner from '../../components/spinner/spinner.tsx';
 
 
@@ -25,18 +25,23 @@ function Offer() {
   const commentLoading = useAppSelector((state) => state.isCommentsLoading);
   const comments = useAppSelector((state) => state.currentComments);
 
+  const nearbyLoading = useAppSelector((state) => state.isNearbyLoading);
+
   useEffect(() => {
     if (id) {
       dispatch(fetchOffer(id));
       dispatch(fetchComments(id));
+      dispatch(fetchNearby(id));
     }
 
     return () => {
       dispatch(loadCurrentOffer(null));
+      dispatch(fillComments([]));
+      dispatch(fillNearby([]));
     };
   }, [dispatch, id]);
 
-  if (offerLoading || commentLoading) {
+  if (offerLoading || commentLoading || nearbyLoading) {
     return (
       <Spinner size={60} />
     );

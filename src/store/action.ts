@@ -35,6 +35,8 @@ export const changeOffersLoadingStatus = createAction<boolean>(Action.CHANGE_LOA
 
 export const setUserEmail = createAction<string | null>(Action.SET_USER_EMAIL);
 
+export const setUserAvatar = createAction<string | null>(Action.SET_USER_AVATAR);
+
 export const redirectToRoute = createAction<AppRoute>(Action.REDIRECT);
 
 export const loadCurrentOffer = createAction<OfferProps | null >(Action.LOAD_CURRENT_OFFER);
@@ -44,3 +46,7 @@ export const changeCurrentOfferLoadingStatus = createAction<boolean>(Action.CHAN
 export const fillComments = createAction<CommentProps[]>(Action.FILL_COMMENTS);
 
 export const changeCommentLoadingStatus = createAction<boolean>(Action.CHANGE_COMMENT_LOADING_STATUS);
+
+export const fillNearby = createAction<CitiesCardProps[]>(Action.FILL_NEARBY);
+
+export const changeNearbyLoadingStatus = createAction<boolean>(Action.CHANGE_NEARBY_LOADING_STATUS);

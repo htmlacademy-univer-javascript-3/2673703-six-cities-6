@@ -6,13 +6,13 @@ import {OfferProps} from '../types/offer.ts';
 import {AppDispatch} from '../types/state.ts';
 import {
   changeCommentLoadingStatus,
-  changeCurrentOfferLoadingStatus,
-  changeOffersLoadingStatus, fillComments,
+  changeCurrentOfferLoadingStatus, changeNearbyLoadingStatus,
+  changeOffersLoadingStatus, fillComments, fillNearby,
   loadCurrentOffer,
   loadOffers,
   redirectToRoute,
   requireAuthorization,
-  setError,
+  setError, setUserAvatar,
   setUserEmail
 } from './action.ts';
 import {AuthData} from '../types/auth-data.ts';
@@ -66,6 +66,18 @@ export const fetchComments = createAsyncThunk<void, OfferProps['id'], Extra>(
   }
 );
 
+export const fetchNearby = createAsyncThunk<void, OfferProps['id'], Extra>(
+  'data/fetchNearby',
+  async (offerId, {dispatch, extra: api}) => {
+    dispatch(changeNearbyLoadingStatus(true));
+    const {data} = await api.get<CitiesCardProps[]>(`${APIRoute.Offers}/${offerId}/nearby`);
+
+    dispatch(fillNearby(data));
+    dispatch(changeNearbyLoadingStatus(false));
+  }
+
+);
+
 export const sendComment = createAsyncThunk<void, CommentData, Extra>(
   'data/sendComment',
   async ({ id: offerId, comment, rating }, {dispatch, extra: api}) => {
@@ -82,6 +94,7 @@ export const checkAuthAction = createAsyncThunk<void, undefined, Extra>(
       const {data} = await api.get<UserProps>(APIRoute.Login);
       dispatch(requireAuthorization(AuthorizationStatus.Auth));
       dispatch(setUserEmail(data.email));
+      dispatch(setUserAvatar(data.avatarUrl));
     } catch {
       dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
     }

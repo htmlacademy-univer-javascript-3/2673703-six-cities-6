@@ -1,13 +1,13 @@
 ﻿import {InitialStateProps} from './store-types/initial-state.ts';
 import {createReducer} from '@reduxjs/toolkit';
 import {
-  changeCity, changeCommentLoadingStatus, changeCurrentOfferLoadingStatus,
+  changeCity, changeCommentLoadingStatus, changeCurrentOfferLoadingStatus, changeNearbyLoadingStatus,
   changeOffersLoadingStatus,
-  changeSorting, fillComments,
+  changeSorting, fillComments, fillNearby,
   fillOffer, loadCurrentOffer,
   loadOffers,
   requireAuthorization,
-  setError, setUserEmail
+  setError, setUserAvatar, setUserEmail
 } from './action.ts';
 import {getCities} from '../mocks/cities.ts';
 import {AuthorizationStatus, SortingOptionVariants} from '../const.ts';
@@ -17,13 +17,16 @@ const initialState: InitialStateProps = {
   offers: [],
   currentOffer: null,
   currentComments: [],
+  currentNearby: [],
   sortingOption: SortingOptionVariants.POPULAR,
   authorizationStatus: AuthorizationStatus.Unknow,
   error: null,
   isOffersLoading: false,
   isCurrentLoading: false,
   isCommentsLoading: false,
+  isNearbyLoading: false,
   userEmail: null,
+  userAvatar: null,
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -53,6 +56,9 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(setUserEmail, (state, action) => {
       state.userEmail = action.payload;
     })
+    .addCase(setUserAvatar, (state, action) => {
+      state.userAvatar = action.payload;
+    })
     .addCase(loadCurrentOffer, (state, action) => {
       state.currentOffer = action.payload;
     })
@@ -64,6 +70,12 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(changeCommentLoadingStatus, (state, action) => {
       state.isCommentsLoading = action.payload;
+    })
+    .addCase(fillNearby, (state, action) => {
+      state.currentNearby = action.payload;
+    })
+    .addCase(changeNearbyLoadingStatus, (state, action) => {
+      state.isNearbyLoading = action.payload;
     });
 });
 

@@ -1,16 +1,13 @@
-﻿import {OfferProps} from '../../types/offer.ts';
-import FavoriteCard from '../../components/favorite-card/favorite-card.tsx';
+﻿import FavoriteCard from '../../components/favorite-card/favorite-card.tsx';
 import Header from '../../components/header/header.tsx';
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const.ts';
+import {CitiesCardProps} from '../../types/cities-card.ts';
+import {useAppSelector} from '../../hooks';
 
-type FavoritesProps = {
-  offers: OfferProps[];
-}
-
-function groupCards(offers: OfferProps[]) {
+function groupCards(offers: CitiesCardProps[]) {
   const favoritesOffers = offers.filter((card) => card.isFavorite);
-  const map = new Map<string, OfferProps[]>();
+  const map = new Map<string, CitiesCardProps[]>();
   favoritesOffers.forEach((card) => {
     const cityName = card.city.name;
     if (!map.has(cityName)) {
@@ -22,7 +19,9 @@ function groupCards(offers: OfferProps[]) {
   return map;
 }
 
-function Favorites({offers}: FavoritesProps) {
+function Favorites() {
+  const offers = useAppSelector((state) => state.offers);
+
   const groupedCards = groupCards(offers);
   return (
     <div className="page">

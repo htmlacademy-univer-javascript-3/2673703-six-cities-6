@@ -1,9 +1,9 @@
-﻿import {OfferProps} from '../../types/offer.ts';
-import {Link} from 'react-router-dom';
+﻿import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const.ts';
+import {CitiesCardProps} from '../../types/cities-card.ts';
 
 type FavoriteCardProps = {
-  offer: OfferProps;
+  offer: CitiesCardProps;
 }
 
 function FavoriteCard({offer}: FavoriteCardProps) {

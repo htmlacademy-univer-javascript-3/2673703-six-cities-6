@@ -6,17 +6,13 @@ import Offer from '../../pages/offer/offer.tsx';
 import {AppRoute, AuthorizationStatus} from '../../const.ts';
 import PrivateRoute from '../private-route/private-route.tsx';
 import Favorites from '../../pages/favorites/favorites.tsx';
-import {OfferProps} from '../../types/offer.ts';
 import {useAppSelector} from '../../hooks';
 import Spinner from '../spinner/spinner.tsx';
 import HistoryRouter from '../history-route/history-route.tsx';
 import browserHistory from '../../browser-history.ts';
 
-type AppProps = {
-  offers: OfferProps[];
-}
 
-function App({offers}: AppProps) {
+function App() {
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const isOffersLoading = useAppSelector((state) => state.isOffersLoading);
 
@@ -43,7 +39,7 @@ function App({offers}: AppProps) {
           path={AppRoute.Favorites}
           element={
             <PrivateRoute authorizationStatus={authorizationStatus}>
-              <Favorites offers={offers}/>
+              <Favorites />
             </PrivateRoute>
           }
         />

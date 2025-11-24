@@ -1,5 +1,5 @@
 ﻿import Main from '../../pages/main/main.tsx';
-import {BrowserRouter, Route, Routes} from 'react-router-dom';
+import {Route, Routes} from 'react-router-dom';
 import NotFound from '../../pages/not-found/not-found.tsx';
 import Login from '../../pages/login/login.tsx';
 import Offer from '../../pages/offer/offer.tsx';
@@ -9,6 +9,8 @@ import Favorites from '../../pages/favorites/favorites.tsx';
 import {OfferProps} from '../../types/offer.ts';
 import {useAppSelector} from '../../hooks';
 import Spinner from '../spinner/spinner.tsx';
+import HistoryRouter from '../history-route/history-route.tsx';
+import browserHistory from '../../browser-history.ts';
 
 type AppProps = {
   offers: OfferProps[];
@@ -25,7 +27,7 @@ function App({offers}: AppProps) {
   }
 
   return (
-    <BrowserRouter>
+    <HistoryRouter history={browserHistory}>
       <Routes>
         <Route
           path={AppRoute.Main}
@@ -40,7 +42,7 @@ function App({offers}: AppProps) {
         <Route
           path={AppRoute.Favorites}
           element={
-            <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+            <PrivateRoute authorizationStatus={authorizationStatus}>
               <Favorites offers={offers}/>
             </PrivateRoute>
           }
@@ -58,7 +60,7 @@ function App({offers}: AppProps) {
           element={<NotFound/>}
         />
       </Routes>
-    </BrowserRouter>
+    </HistoryRouter>
   );
 }
 

@@ -26,6 +26,8 @@ export const Action = {
   REQUIRE_AUTHORIZATION: 'REQUIRE_AUTHORIZATION',
   SET_ERROR: 'SET_ERROR',
   CHANGE_LOADING_STATUS: 'CHANGE_LOADING_STATUS',
+  SET_USER_EMAIL: 'SET_USER_EMAIL',
+  REDIRECT: 'REDIRECT',
 } as const;
 
 export const SortingOptionVariants = {

@@ -7,7 +7,7 @@ import {
   fillOffer,
   loadOffers,
   requireAuthorization,
-  setError
+  setError, setUserEmail
 } from './action.ts';
 import {getCities} from '../mocks/cities.ts';
 import {AuthorizationStatus, SortingOptionVariants} from '../const.ts';
@@ -19,6 +19,7 @@ const initialState: InitialStateProps = {
   authorizationStatus: AuthorizationStatus.Unknow,
   error: null,
   isOffersLoading: false,
+  userEmail: null,
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -44,6 +45,9 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(changeLoadingStatus, (state, action) => {
       state.isOffersLoading = action.payload;
+    })
+    .addCase(setUserEmail, (state, action) => {
+      state.userEmail = action.payload;
     });
 });
 

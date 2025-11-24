@@ -20,7 +20,10 @@ function Offer({offers}: OfferPageProps) {
   const offer = offers.find((e) => e.id === id);
   if (offer === undefined) {
     return (
-      <h1>Такого предложения нет</h1>
+      <>
+        <Header />
+        <h1>Такого предложения нет</h1>
+      </>
     );
   }
 

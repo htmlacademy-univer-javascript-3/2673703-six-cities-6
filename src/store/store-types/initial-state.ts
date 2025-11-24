@@ -10,4 +10,5 @@ export type InitialStateProps = {
   authorizationStatus: AuthorizationStatus;
   error: string | null;
   isOffersLoading: boolean;
+  userEmail: string | null;
 }

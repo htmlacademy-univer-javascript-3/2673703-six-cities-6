@@ -1,5 +1,8 @@
-﻿import {ChangeEvent, Fragment, useState} from 'react';
+﻿import {ChangeEvent, FormEvent, Fragment, useState} from 'react';
 import {MAX_COMMENT_LENGTH, MIN_COMMENT_LENGTH} from '../../const.ts';
+import {useAppDispatch, useAppSelector} from '../../hooks';
+import {CommentData} from '../../types/comment-data.ts';
+import {sendComment} from '../../store/api-actions.ts';
 
 
 const ratingMap = {
@@ -11,7 +14,11 @@ const ratingMap = {
 };
 
 function CommentForm() {
-  const [form, setForm] = useState({
+  const dispatch = useAppDispatch();
+  const currentOffer = useAppSelector((state) => state.currentOffer);
+
+  const [form, setForm] = useState<CommentData>({
+    id: currentOffer!.id,
     comment: '',
     rating: '',
   });
@@ -29,9 +36,14 @@ function CommentForm() {
     }));
   }
 
+  const handleSendComment = (evt: FormEvent) => {
+    evt.preventDefault();
+    dispatch(sendComment(form));
+  };
+
 
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form className="reviews__form form" action="#" method="post" onSubmit={handleSendComment}>
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
         {
@@ -56,7 +68,7 @@ function CommentForm() {
           ))
         }
       </div>
-      <textarea className="reviews__textarea form__textarea" id="review" name="review"
+      <textarea className="reviews__textarea form__textarea" id="review" name="comment"
         placeholder="Tell how was your stay, what you like and what can be improved"
         value={form.comment}
         onChange={handleFormChange}

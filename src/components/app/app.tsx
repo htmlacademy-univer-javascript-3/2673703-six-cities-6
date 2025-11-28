@@ -1,20 +1,29 @@
 ﻿import Main from '../../pages/main/main.tsx';
-import {BrowserRouter, Route, Routes} from 'react-router-dom';
+import {Route, Routes} from 'react-router-dom';
 import NotFound from '../../pages/not-found/not-found.tsx';
 import Login from '../../pages/login/login.tsx';
 import Offer from '../../pages/offer/offer.tsx';
 import {AppRoute, AuthorizationStatus} from '../../const.ts';
 import PrivateRoute from '../private-route/private-route.tsx';
 import Favorites from '../../pages/favorites/favorites.tsx';
-import {OfferProps} from '../../types/offer.ts';
+import {useAppSelector} from '../../hooks';
+import Spinner from '../spinner/spinner.tsx';
+import HistoryRouter from '../history-route/history-route.tsx';
+import browserHistory from '../../browser-history.ts';
 
-type AppProps = {
-  offers: OfferProps[];
-}
 
-function App({offers}: AppProps) {
+function App() {
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const isOffersLoading = useAppSelector((state) => state.isOffersLoading);
+
+  if (authorizationStatus === AuthorizationStatus.Unknow || isOffersLoading) {
+    return (
+      <Spinner size={60} />
+    );
+  }
+
   return (
-    <BrowserRouter>
+    <HistoryRouter history={browserHistory}>
       <Routes>
         <Route
           path={AppRoute.Main}
@@ -29,8 +38,8 @@ function App({offers}: AppProps) {
         <Route
           path={AppRoute.Favorites}
           element={
-            <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
-              <Favorites offers={offers}/>
+            <PrivateRoute authorizationStatus={authorizationStatus}>
+              <Favorites />
             </PrivateRoute>
           }
         />
@@ -38,7 +47,7 @@ function App({offers}: AppProps) {
 
         <Route
           path={`${AppRoute.Offer}/:id`}
-          element={<Offer offers={offers}/>}
+          element={<Offer />}
         />
 
 
@@ -47,7 +56,7 @@ function App({offers}: AppProps) {
           element={<NotFound/>}
         />
       </Routes>
-    </BrowserRouter>
+    </HistoryRouter>
   );
 }
 

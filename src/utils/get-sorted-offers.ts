@@ -1,9 +1,9 @@
-﻿import {OfferProps} from '../types/offer.ts';
-import {SortingOption} from '../types/sorting-option.ts';
+﻿import {SortingOption} from '../types/sorting-option.ts';
 import {SortingOptionVariants} from '../const.ts';
+import {CitiesCardProps} from '../types/cities-card.ts';
 
 
-export const getSortedOffers = (offers: OfferProps[], sortingOption: SortingOption) => {
+export const getSortedOffers = (offers: CitiesCardProps[], sortingOption: SortingOption) => {
   switch (sortingOption) {
     case (SortingOptionVariants.POPULAR): {
       return offers;

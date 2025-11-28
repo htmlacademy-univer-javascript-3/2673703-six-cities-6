@@ -1,7 +1,6 @@
 ﻿import {CityProps} from '../../types/city.ts';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {changeCity, changeSorting, fillOffer} from '../../store/action.ts';
-import {getOffers} from '../../mocks/offers.ts';
+import {changeCity, changeSorting} from '../../store/action.ts';
 import {SortingOptionVariants} from '../../const.ts';
 
 type CityListProps = {
@@ -20,7 +19,6 @@ function CityList({cities}: CityListProps) {
 
   const cityClickHandle = (cityName: CityProps['name']) => {
     dispatch(changeCity(cityMap[cityName]));
-    dispatch(fillOffer(getOffers().filter((offer) => offer.city.name === cityName)));
     dispatch(changeSorting(SortingOptionVariants.POPULAR));
   };
 

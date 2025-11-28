@@ -1,8 +1,10 @@
-﻿import {OfferProps} from '../../types/offer.ts';
+﻿import {CitiesCardProps} from '../../types/cities-card.ts';
+import {Link} from 'react-router-dom';
+import {AppRoute} from '../../const.ts';
 
 
 type NeighbourhoodCardProps = {
-  offer: OfferProps;
+  offer: CitiesCardProps;
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
 }
@@ -11,9 +13,9 @@ function NeighbourhoodCard({offer, onMouseEnter, onMouseLeave}: NeighbourhoodCar
   return (
     <article className="near-places__card place-card" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
       <div className="near-places__image-wrapper place-card__image-wrapper">
-        <a href="#">
+        <Link to={`${AppRoute.Offer}/${offer.id}`}>
           <img className="place-card__image" src={offer.previewImage} width="260" height="200" alt="Place image"/>
-        </a>
+        </Link>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
@@ -39,7 +41,7 @@ function NeighbourhoodCard({offer, onMouseEnter, onMouseLeave}: NeighbourhoodCar
         <h2 className="place-card__name">
           <a href="#">{offer.title}</a>
         </h2>
-        <p className="place-card__type">{offer.type}</p>
+        <p className="place-card__type">{offer.type.charAt(0).toUpperCase() + offer.type.slice(1)}</p>
       </div>
     </article>
   );

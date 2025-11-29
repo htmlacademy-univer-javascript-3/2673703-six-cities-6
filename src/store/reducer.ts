@@ -3,10 +3,10 @@ import {createReducer} from '@reduxjs/toolkit';
 import {
   changeCity, changeCommentLoadingStatus, changeCurrentOfferLoadingStatus, changeNearbyLoadingStatus,
   changeOffersLoadingStatus,
-  changeSorting, fillComments, fillNearby,
+  changeSorting, fillComments, fillFavorites, fillNearby,
   fillOffer, loadCurrentOffer,
   loadOffers,
-  requireAuthorization,
+  requireAuthorization, resetUser,
   setError, setUserAvatar, setUserEmail
 } from './action.ts';
 import {getCities} from '../mocks/cities.ts';
@@ -32,6 +32,7 @@ const initialState: InitialStateProps = {
   user: {
     email: null,
     avatar: null,
+    favorites: [],
   },
 };
 
@@ -82,6 +83,16 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(changeNearbyLoadingStatus, (state, action) => {
       state.loadingStatus.nearby = action.payload;
+    })
+    .addCase(fillFavorites, (state, action) => {
+      state.user.favorites = action.payload;
+    })
+    .addCase(resetUser, (state) => {
+      state.user = {
+        email: null,
+        avatar: null,
+        favorites: [],
+      };
     });
 });
 

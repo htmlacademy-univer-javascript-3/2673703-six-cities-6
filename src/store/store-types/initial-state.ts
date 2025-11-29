@@ -25,5 +25,6 @@ export type InitialStateProps = {
   user: {
     email: string | null;
     avatar: string | null;
+    favorites: CitiesCardProps[];
   };
 }

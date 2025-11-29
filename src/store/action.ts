@@ -50,3 +50,7 @@ export const changeCommentLoadingStatus = createAction<boolean>(Action.CHANGE_CO
 export const fillNearby = createAction<CitiesCardProps[]>(Action.FILL_NEARBY);
 
 export const changeNearbyLoadingStatus = createAction<boolean>(Action.CHANGE_NEARBY_LOADING_STATUS);
+
+export const fillFavorites = createAction<CitiesCardProps[]>(Action.FILL_FAVORITES);
+
+export const resetUser = createAction(Action.RESET_USER);

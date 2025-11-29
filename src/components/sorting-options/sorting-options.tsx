@@ -1,9 +1,11 @@
 ﻿import {useAppDispatch, useAppSelector} from '../../hooks';
 import {SortingOptionVariants} from '../../const.ts';
 import {changeSorting} from '../../store/action.ts';
+import {useState} from 'react';
 
 
 function SortingOptions() {
+  const [openFlag, setOpenFlag] = useState<boolean>(false);
   const currentOption = useAppSelector((state) => state.sortingOption);
   const sortingOptions = Object.values(SortingOptionVariants);
 
@@ -12,13 +14,13 @@ function SortingOptions() {
   return(
     <form className="places__sorting" action="#" method="get">
       <span className="places__sorting-caption">Sort by</span>
-      <span className="places__sorting-type" tabIndex={0}>
+      <span className="places__sorting-type" tabIndex={0} onClick={() => setOpenFlag((prevState) => !prevState)}>
         {currentOption}
         <svg className="places__sorting-arrow" width="7" height="4">
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
       </span>
-      <ul className="places__options places__options--custom places__options--opened">
+      <ul className={`places__options places__options--custom ${openFlag ? 'places__options--opened' : ''}`}>
         {
           sortingOptions.map((option) => (
             <li

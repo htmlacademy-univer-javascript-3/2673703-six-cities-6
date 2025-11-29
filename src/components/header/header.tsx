@@ -1,13 +1,18 @@
 ﻿import {Link} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../const.ts';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {logoutAction} from '../../store/api-actions.ts';
+import {fetchFavorites, logoutAction} from '../../store/api-actions.ts';
+import {useEffect} from 'react';
 
 
 function HeaderWithAuthorization() {
-  const userEmail = useAppSelector((state) => state.user.email);
-  const userAvatar = useAppSelector((state) => state.user.avatar);
+  const user = useAppSelector((state) => state.user);
+  const {email, avatar, favorites} = user;
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchFavorites());
+  }, [email, avatar, dispatch]);
 
   const handleSignOut = () => {
     dispatch(logoutAction());
@@ -18,10 +23,12 @@ function HeaderWithAuthorization() {
       <li className="header__nav-item user">
         <a className="header__nav-link header__nav-link--profile" href="#">
           <div className="header__avatar-wrapper user__avatar-wrapper">
-            <img src={userAvatar!} />
+            <img src={avatar!} />
           </div>
-          <span className="header__user-name user__name">{userEmail}</span>
-          <span className="header__favorite-count">3</span>
+          <Link to={AppRoute.Favorites}>
+            <span className="header__user-name user__name">{email}</span>
+            <span className="header__favorite-count">{favorites.length}</span>
+          </Link>
         </a>
       </li>
       <li className="header__nav-item" onClick={handleSignOut}>

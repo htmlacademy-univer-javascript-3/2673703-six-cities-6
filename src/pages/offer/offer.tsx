@@ -9,6 +9,7 @@ import {fetchComments, fetchNearby, fetchOffer} from '../../store/api-actions.ts
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {fillComments, fillNearby, loadCurrentOffer} from '../../store/action.ts';
 import Spinner from '../../components/spinner/spinner.tsx';
+import {useChangeFavorite} from '../../hooks/use-change-favorite.ts';
 
 
 function Offer() {
@@ -18,14 +19,14 @@ function Offer() {
 
   const {id} = useParams<{ id: string }>();
 
-
   const offerLoading = useAppSelector((state) => state.loadingStatus.current);
   const offer = useAppSelector((state) => state.current.offer);
 
   const commentsLoading = useAppSelector((state) => state.loadingStatus.comments);
 
-
   const nearbyLoading = useAppSelector((state) => state.loadingStatus.nearby);
+
+  const changeFavorite = useChangeFavorite();
 
   useEffect(() => {
     if (id) {
@@ -53,6 +54,7 @@ function Offer() {
     );
   }
 
+  const isFavorite = offer.isFavorite;
   return (
     <div className="page">
       <Header />
@@ -83,7 +85,11 @@ function Offer() {
                 <h1 className="offer__name">
                   {offer.title}
                 </h1>
-                <button className="offer__bookmark-button button" type="button">
+                <button
+                  className={`offer__bookmark-button button ${isFavorite ? 'offer__bookmark-button--active' : ''}`}
+                  type="button"
+                  onClick={() => changeFavorite(offer?.id)}
+                >
                   <svg className="offer__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
                   </svg>

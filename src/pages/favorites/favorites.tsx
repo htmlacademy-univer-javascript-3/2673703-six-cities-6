@@ -4,11 +4,11 @@ import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const.ts';
 import {CitiesCardProps} from '../../types/cities-card.ts';
 import {useAppSelector} from '../../hooks';
+import FavoritesEmpty from './favorites-empty.tsx';
 
 function groupCards(offers: CitiesCardProps[]) {
-  const favoritesOffers = offers.filter((card) => card.isFavorite);
   const map = new Map<string, CitiesCardProps[]>();
-  favoritesOffers.forEach((card) => {
+  offers.forEach((card) => {
     const cityName = card.city.name;
     if (!map.has(cityName)) {
       map.set(card.city.name, [card]);
@@ -20,9 +20,13 @@ function groupCards(offers: CitiesCardProps[]) {
 }
 
 function Favorites() {
-  const offers = useAppSelector((state) => state.offers);
+  const favoritesOffers = useAppSelector((state) => state.user.favorites);
 
-  const groupedCards = groupCards(offers);
+  if (favoritesOffers.length === 0) {
+    return <FavoritesEmpty />;
+  }
+
+  const groupedCards = groupCards(favoritesOffers);
   return (
     <div className="page">
       <Header />
@@ -44,11 +48,15 @@ function Favorites() {
                     </div>
                   </div>
 
-                  {cityOffers.map((card) => (
-                    <FavoriteCard key={card.id}
-                      offer={card}
-                    />
-                  ))}
+                  <div className="favorites__places">
+                    {cityOffers.map((card) => (
+                      <FavoriteCard key={card.id}
+                        offer={card}
+                      />
+                    ))}
+                  </div>
+
+
                 </li>
               ))}
 

@@ -23,7 +23,7 @@ function Offer() {
   const offer = useAppSelector((state) => state.currentOffer);
 
   const commentLoading = useAppSelector((state) => state.isCommentsLoading);
-  const comments = useAppSelector((state) => state.currentComments);
+
 
   const nearbyLoading = useAppSelector((state) => state.isNearbyLoading);
 
@@ -151,7 +151,7 @@ function Offer() {
                   </p>
                 </div>
               </div>
-              <CommentsList comments={comments} />
+              <CommentsList />
             </div>
           </div>
           <Map

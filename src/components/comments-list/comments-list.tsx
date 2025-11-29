@@ -1,15 +1,12 @@
 ﻿import CommentForm from '../comment-form/comment-form.tsx';
-import {CommentProps} from '../../types/comment.ts';
 import Comment from '../comment/comment.tsx';
 import {useAppSelector} from '../../hooks';
 import {AuthorizationStatus} from '../../const.ts';
 
-type CommentsListProps = {
-  comments: CommentProps[];
-}
 
-function CommentsList({comments}: CommentsListProps) {
+function CommentsList() {
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const comments = useAppSelector((state) => state.currentComments);
 
   return (
     <section className="offer__reviews reviews">

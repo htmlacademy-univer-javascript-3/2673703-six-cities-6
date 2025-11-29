@@ -3,7 +3,7 @@ import {createAsyncThunk} from '@reduxjs/toolkit';
 import {CitiesCardProps} from '../types/cities-card.ts';
 import {APIRoute, AppRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR} from '../const.ts';
 import {OfferProps} from '../types/offer.ts';
-import {AppDispatch} from '../types/state.ts';
+import {AppDispatch, State} from '../types/state.ts';
 import {
   changeCommentLoadingStatus,
   changeCurrentOfferLoadingStatus, changeNearbyLoadingStatus,
@@ -21,7 +21,6 @@ import {UserProps} from '../types/user.ts';
 import {store} from './index.ts';
 import {CommentProps} from '../types/comment.ts';
 import {CommentData} from '../types/comment-data.ts';
-
 
 type Extra = {
   extra: AxiosInstance;
@@ -80,10 +79,15 @@ export const fetchNearby = createAsyncThunk<void, OfferProps['id'], Extra>(
 
 export const sendComment = createAsyncThunk<void, CommentData, Extra>(
   'data/sendComment',
-  async ({ id: offerId, comment, rating }, {dispatch, extra: api}) => {
-    await api.post<CommentProps>(`${APIRoute.Comments}/${offerId}`, {comment, rating: +rating});
+  async ({ id: offerId, comment, rating }, {dispatch, extra: api, getState}) => {
+    const {data} = await api.post<CommentProps>(`${APIRoute.Comments}/${offerId}`, {comment, rating: +rating});
 
-    dispatch(fetchComments(offerId));
+    const state = getState() as State;
+    const currentComments = state.currentComments;
+
+
+    dispatch(fillComments([...currentComments, data]));
+
   }
 );
 

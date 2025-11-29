@@ -5,6 +5,11 @@ import {CommentData} from '../../types/comment-data.ts';
 import {sendComment} from '../../store/api-actions.ts';
 
 
+type CommentForm = {
+  comment: string;
+  rating: string;
+}
+
 const ratingMap = {
   '3': '5-stars',
   '2': '4-stars',
@@ -17,8 +22,7 @@ function CommentForm() {
   const dispatch = useAppDispatch();
   const currentOffer = useAppSelector((state) => state.currentOffer);
 
-  const [form, setForm] = useState<CommentData>({
-    id: currentOffer!.id,
+  const [form, setForm] = useState<CommentForm>({
     comment: '',
     rating: '',
   });
@@ -38,7 +42,18 @@ function CommentForm() {
 
   const handleSendComment = (evt: FormEvent) => {
     evt.preventDefault();
-    dispatch(sendComment(form));
+
+    const commentData: CommentData = {
+      id: currentOffer!.id,
+      comment: form.comment,
+      rating: form.rating,
+    };
+
+    dispatch(sendComment(commentData));
+    setForm({
+      comment: '',
+      rating: '',
+    });
   };
 
 

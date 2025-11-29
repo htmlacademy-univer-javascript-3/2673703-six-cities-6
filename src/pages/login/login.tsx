@@ -7,12 +7,11 @@ import {setUserEmail} from '../../store/action.ts';
 
 
 function Login() {
-  const loginRef = useRef<HTMLInputElement | null>(null);
-  const passwordRef = useRef<HTMLInputElement | null>(null);
+  const loginFormRef = useRef<HTMLFormElement | null>(null);
 
   const dispatch = useAppDispatch();
 
-  const validPassword = (password: string) => {
+  const isValidPassword = (password: string): boolean => {
     let digitsCount = 0;
     let lettersCount = 0;
 
@@ -35,14 +34,24 @@ function Login() {
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
-    if (loginRef.current !== null && passwordRef.current !== null && validPassword(passwordRef.current.value)) {
+    if (loginFormRef.current === null) {
+      return;
+    }
+
+    const formData = new FormData(loginFormRef.current);
+
+    const email = formData.get('email') as string;
+    const password = formData.get('password') as string;
+
+    if (isValidPassword(password)) {
       dispatch(loginAction({
-        login: loginRef.current.value,
-        password: passwordRef.current.value,
+        login: email,
+        password: password,
       }));
 
-      dispatch(setUserEmail(loginRef.current.value));
+      dispatch(setUserEmail(email));
     }
+
   };
 
 
@@ -64,14 +73,17 @@ function Login() {
         <div className="page__login-container container">
           <section className="login">
             <h1 className="login__title">Sign in</h1>
-            <form className="login__form form" action="" onSubmit={handleSubmit}>
+            <form className="login__form form" action="" onSubmit={handleSubmit} ref={loginFormRef}>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
-                <input ref={loginRef} className="login__input form__input" type="email" name="email" placeholder="Email" required/>
+                <input className="login__input form__input" type="email" name="email" placeholder="Email"
+                  required
+                />
               </div>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">Password</label>
-                <input ref={passwordRef} className="login__input form__input" type="password" name="password" placeholder="Password"
+                <input className="login__input form__input" type="password" name="password"
+                  placeholder="Password"
                   required
                 />
               </div>

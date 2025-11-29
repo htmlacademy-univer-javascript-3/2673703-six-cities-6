@@ -83,7 +83,7 @@ export const sendComment = createAsyncThunk<void, CommentData, Extra>(
     const {data} = await api.post<CommentProps>(`${APIRoute.Comments}/${offerId}`, {comment, rating: +rating});
 
     const state = getState() as State;
-    const currentComments = state.currentComments;
+    const currentComments = state.current.comments;
 
 
     dispatch(fillComments([...currentComments, data]));

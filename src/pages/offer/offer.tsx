@@ -19,13 +19,13 @@ function Offer() {
   const {id} = useParams<{ id: string }>();
 
 
-  const offerLoading = useAppSelector((state) => state.isCurrentLoading);
-  const offer = useAppSelector((state) => state.currentOffer);
+  const offerLoading = useAppSelector((state) => state.loadingStatus.current);
+  const offer = useAppSelector((state) => state.current.offer);
 
-  const commentLoading = useAppSelector((state) => state.isCommentsLoading);
+  const commentsLoading = useAppSelector((state) => state.loadingStatus.comments);
 
 
-  const nearbyLoading = useAppSelector((state) => state.isNearbyLoading);
+  const nearbyLoading = useAppSelector((state) => state.loadingStatus.nearby);
 
   useEffect(() => {
     if (id) {
@@ -41,7 +41,7 @@ function Offer() {
     };
   }, [dispatch, id]);
 
-  if (offerLoading || commentLoading || nearbyLoading) {
+  if (offerLoading || commentsLoading || nearbyLoading) {
     return (
       <Spinner size={60} />
     );

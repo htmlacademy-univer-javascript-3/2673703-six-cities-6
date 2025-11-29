@@ -20,7 +20,7 @@ const ratingMap = {
 
 function CommentForm() {
   const dispatch = useAppDispatch();
-  const currentOffer = useAppSelector((state) => state.currentOffer);
+  const currentOffer = useAppSelector((state) => state.current.offer);
 
   const [form, setForm] = useState<CommentForm>({
     comment: '',

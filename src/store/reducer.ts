@@ -15,18 +15,24 @@ import {AuthorizationStatus, SortingOptionVariants} from '../const.ts';
 const initialState: InitialStateProps = {
   city: getCities().find((city) => city.name === 'Paris')!,
   offers: [],
-  currentOffer: null,
-  currentComments: [],
-  currentNearby: [],
+  current: {
+    offer: null,
+    comments: [],
+    nearby: [],
+  },
   sortingOption: SortingOptionVariants.POPULAR,
   authorizationStatus: AuthorizationStatus.Unknow,
   error: null,
-  isOffersLoading: false,
-  isCurrentLoading: false,
-  isCommentsLoading: false,
-  isNearbyLoading: false,
-  userEmail: null,
-  userAvatar: null,
+  loadingStatus: {
+    offers: false,
+    current: false,
+    comments: false,
+    nearby: false,
+  },
+  user: {
+    email: null,
+    avatar: null,
+  },
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -51,31 +57,31 @@ export const reducer = createReducer(initialState, (builder) => {
       state.error = action.payload;
     })
     .addCase(changeOffersLoadingStatus, (state, action) => {
-      state.isOffersLoading = action.payload;
+      state.loadingStatus.offers = action.payload;
     })
     .addCase(setUserEmail, (state, action) => {
-      state.userEmail = action.payload;
+      state.user.email = action.payload;
     })
     .addCase(setUserAvatar, (state, action) => {
-      state.userAvatar = action.payload;
+      state.user.avatar = action.payload;
     })
     .addCase(loadCurrentOffer, (state, action) => {
-      state.currentOffer = action.payload;
+      state.current.offer = action.payload;
     })
     .addCase(changeCurrentOfferLoadingStatus, (state, action) => {
-      state.isCurrentLoading = action.payload;
+      state.loadingStatus.current = action.payload;
     })
     .addCase(fillComments, (state, action) => {
-      state.currentComments = action.payload;
+      state.current.comments = action.payload;
     })
     .addCase(changeCommentLoadingStatus, (state, action) => {
-      state.isCommentsLoading = action.payload;
+      state.loadingStatus.comments = action.payload;
     })
     .addCase(fillNearby, (state, action) => {
-      state.currentNearby = action.payload;
+      state.current.nearby = action.payload;
     })
     .addCase(changeNearbyLoadingStatus, (state, action) => {
-      state.isNearbyLoading = action.payload;
+      state.loadingStatus.nearby = action.payload;
     });
 });
 

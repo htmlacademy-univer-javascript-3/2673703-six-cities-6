@@ -6,7 +6,7 @@ import {AuthorizationStatus} from '../../const.ts';
 
 function CommentsList() {
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const comments = useAppSelector((state) => state.currentComments);
+  const comments = useAppSelector((state) => state.current.comments);
 
   return (
     <section className="offer__reviews reviews">

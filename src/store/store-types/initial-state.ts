@@ -8,16 +8,22 @@ import {CommentProps} from '../../types/comment.ts';
 export type InitialStateProps = {
   city: CityProps;
   offers: CitiesCardProps[];
-  currentOffer: OfferProps | null;
-  currentComments: CommentProps[];
-  currentNearby: CitiesCardProps[];
+  current: {
+    offer: OfferProps | null;
+    comments: CommentProps[];
+    nearby: CitiesCardProps[];
+  };
   sortingOption: SortingOption;
   authorizationStatus: AuthorizationStatus;
   error: string | null;
-  isOffersLoading: boolean;
-  isCurrentLoading: boolean;
-  isCommentsLoading: boolean;
-  isNearbyLoading: boolean;
-  userEmail: string | null;
-  userAvatar: string | null;
+  loadingStatus: {
+    offers: boolean;
+    current: boolean;
+    comments: boolean;
+    nearby: boolean;
+  };
+  user: {
+    email: string | null;
+    avatar: string | null;
+  };
 }

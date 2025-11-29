@@ -5,8 +5,8 @@ import {logoutAction} from '../../store/api-actions.ts';
 
 
 function HeaderWithAuthorization() {
-  const userEmail = useAppSelector((state) => state.userEmail);
-  const userAvatar = useAppSelector((state) => state.userAvatar);
+  const userEmail = useAppSelector((state) => state.user.email);
+  const userAvatar = useAppSelector((state) => state.user.avatar);
   const dispatch = useAppDispatch();
 
   const handleSignOut = () => {

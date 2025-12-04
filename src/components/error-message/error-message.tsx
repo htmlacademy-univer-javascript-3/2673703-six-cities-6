@@ -2,7 +2,7 @@
 import './error-message.css';
 
 function ErrorMessage() {
-  const error = useAppSelector((state) => state.error);
+  const error = useAppSelector((state) => state.SETTINGS.error);
 
   return (error) ? <div className='error-message'>{error}</div> : null;
 }

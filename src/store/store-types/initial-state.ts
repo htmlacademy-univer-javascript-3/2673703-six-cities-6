@@ -5,7 +5,7 @@ import {AuthorizationStatus} from '../../const.ts';
 import {OfferProps} from '../../types/offer.ts';
 import {CommentProps} from '../../types/comment.ts';
 
-export type InitialStateProps = {
+export type InitialState = {
   city: CityProps;
   offers: CitiesCardProps[];
   current: {
@@ -13,8 +13,8 @@ export type InitialStateProps = {
     comments: CommentProps[];
     nearby: CitiesCardProps[];
   };
+
   sortingOption: SortingOption;
-  authorizationStatus: AuthorizationStatus;
   error: string | null;
   loadingStatus: {
     offers: boolean;
@@ -22,6 +22,8 @@ export type InitialStateProps = {
     comments: boolean;
     nearby: boolean;
   };
+
+  authorizationStatus: AuthorizationStatus;
   user: {
     email: string | null;
     avatar: string | null;

@@ -2,6 +2,7 @@
 import {AppRoute} from '../../const.ts';
 import {CitiesCardProps} from '../../types/cities-card.ts';
 import {useChangeFavorite} from '../../hooks/use-change-favorite.ts';
+import {memo} from 'react';
 
 type CitesCardComponentProps = {
   offer: CitiesCardProps;
@@ -11,6 +12,7 @@ type CitesCardComponentProps = {
 
 function CitesCard({offer, onMouseEnter, onMouseLeave}: CitesCardComponentProps) {
   const {isPremium, isFavorite, previewImage, price, title, type, id} = offer;
+
 
   const changeFavorite = useChangeFavorite();
 
@@ -24,7 +26,7 @@ function CitesCard({offer, onMouseEnter, onMouseLeave}: CitesCardComponentProps)
       }
       <div className="cities__image-wrapper place-card__image-wrapper">
         <Link to={`${AppRoute.Offer}/${id}`}>
-          <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place image" />
+          <img loading='lazy' className="place-card__image" src={previewImage} width="260" height="200" alt="Place image" />
         </Link>
       </div>
       <div className="place-card__info">
@@ -59,5 +61,5 @@ function CitesCard({offer, onMouseEnter, onMouseLeave}: CitesCardComponentProps)
   );
 }
 
-export default CitesCard;
+export default memo(CitesCard);
 

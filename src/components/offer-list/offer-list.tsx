@@ -4,6 +4,7 @@ import MainEmpty from '../../pages/main/main-empty.tsx';
 import SortingOptions from '../sorting-options/sorting-options.tsx';
 import {getSortedOffers} from '../../utils/get-sorted-offers.ts';
 import {CitiesCardProps} from '../../types/cities-card.ts';
+import {memo, useMemo} from 'react';
 
 
 type OfferListProps = {
@@ -12,16 +13,17 @@ type OfferListProps = {
 
 function OfferList({setChosenId}: OfferListProps) {
 
-  const currentCity = useAppSelector((state) => state.city);
-  const currenSorting = useAppSelector((state) => state.sortingOption);
+  const currentCity = useAppSelector((state) => state.OFFERS.city);
+  const currenSorting = useAppSelector((state) => state.SETTINGS.sortingOption);
 
-  const offersFromServer = useAppSelector((state) => state.offers);
+  const offersFromServer = useAppSelector((state) => state.OFFERS.offers);
+
+  const offers = useMemo(() => getSortedOffers(offersFromServer, currenSorting)
+    .filter((offer) => offer.city.name === currentCity.name), [offersFromServer, currenSorting, currentCity]);
+
   if (offersFromServer.length === 0) {
     return <MainEmpty />;
   }
-
-  const offers = getSortedOffers(offersFromServer, currenSorting)
-    .filter((offer) => offer.city.name === currentCity.name);
 
   return (
     <section className="cities__places places">
@@ -43,4 +45,4 @@ function OfferList({setChosenId}: OfferListProps) {
   );
 }
 
-export default OfferList;
+export default memo(OfferList);

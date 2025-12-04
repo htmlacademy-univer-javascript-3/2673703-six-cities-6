@@ -1,7 +1,7 @@
 ﻿import {useAppSelector} from '../../hooks';
 
 function MainEmpty() {
-  const currentCity = useAppSelector((state) => state.city);
+  const currentCity = useAppSelector((state) => state.OFFERS.city);
   return (
     <div className="page page--gray page--main">
 

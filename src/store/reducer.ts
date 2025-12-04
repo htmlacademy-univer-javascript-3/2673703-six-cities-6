@@ -1,18 +1,18 @@
-﻿import {InitialStateProps} from './store-types/initial-state.ts';
+﻿/*
+import {InitialState} from './store-types/initial-state.ts';
 import {createReducer} from '@reduxjs/toolkit';
 import {
   changeCity, changeCommentLoadingStatus, changeCurrentOfferLoadingStatus, changeNearbyLoadingStatus,
   changeOffersLoadingStatus,
   changeSorting, fillComments, fillFavorites, fillNearby,
-  fillOffer, loadCurrentOffer,
-  loadOffers,
+  fillOffers, loadCurrentOffer,
   requireAuthorization, resetUser,
   setError, setUserAvatar, setUserEmail
 } from './action.ts';
 import {getCities} from '../mocks/cities.ts';
 import {AuthorizationStatus, SortingOptionVariants} from '../const.ts';
 
-const initialState: InitialStateProps = {
+const initialState: InitialState = {
   city: getCities().find((city) => city.name === 'Paris')!,
   offers: [],
   current: {
@@ -42,14 +42,11 @@ export const reducer = createReducer(initialState, (builder) => {
       state.city.name = action.payload.name;
       state.city.location = action.payload.location;
     })
-    .addCase(fillOffer, (state, action) => {
+    .addCase(fillOffers, (state, action) => {
       state.offers = action.payload;
     })
     .addCase(changeSorting, (state, action) => {
       state.sortingOption = action.payload;
-    })
-    .addCase(loadOffers, (state, action) => {
-      state.offers = action.payload;
     })
     .addCase(requireAuthorization, (state, action) => {
       state.authorizationStatus = action.payload;
@@ -97,3 +94,4 @@ export const reducer = createReducer(initialState, (builder) => {
 });
 
 
+*/

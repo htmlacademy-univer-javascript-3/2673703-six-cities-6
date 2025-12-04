@@ -4,7 +4,7 @@ export enum AppRoute {
   Login = '/login',
   Favorites = '/favorites',
   Offer = '/offer',
-  NotFound = '/notFound',
+  NotFound = '/not-Found',
 }
 
 export enum AuthorizationStatus {
@@ -24,7 +24,6 @@ export const Action = {
   CHANGE_CITY: 'CHANGE_CITY',
   FILL_OFFER: 'FILL_OFFER',
   CHANGE_SORTING: 'CHANGE_SORTING',
-  LOAD_OFFERS: 'LOAD_OFFERS',
   REQUIRE_AUTHORIZATION: 'REQUIRE_AUTHORIZATION',
   SET_ERROR: 'SET_ERROR',
   CHANGE_LOADING_STATUS: 'CHANGE_LOADING_STATUS',
@@ -66,4 +65,9 @@ export enum APIRoute {
   Favorite = '/favorite',
 }
 
-
+export enum NameSpace {
+  Data = 'DATA',
+  User = 'USER',
+  Offers = 'OFFERS',
+  Settings = 'SETTINGS',
+}

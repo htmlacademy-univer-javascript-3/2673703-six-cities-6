@@ -7,9 +7,9 @@ import NeighbourhoodList from '../../components/neighbourhood-list/neighbourhood
 import Header from '../../components/header/header.tsx';
 import {fetchComments, fetchNearby, fetchOffer} from '../../store/api-actions.ts';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {fillComments, fillNearby, loadCurrentOffer} from '../../store/action.ts';
 import Spinner from '../../components/spinner/spinner.tsx';
 import {useChangeFavorite} from '../../hooks/use-change-favorite.ts';
+import {fillComments, fillNearby, loadCurrentOffer} from '../../store/offers-process/offers-process.ts';
 
 
 function Offer() {
@@ -19,12 +19,12 @@ function Offer() {
 
   const {id} = useParams<{ id: string }>();
 
-  const offerLoading = useAppSelector((state) => state.loadingStatus.current);
-  const offer = useAppSelector((state) => state.current.offer);
+  const offerLoading = useAppSelector((state) => state.SETTINGS.loadingStatus.current);
+  const offer = useAppSelector((state) => state.OFFERS.current.offer);
 
-  const commentsLoading = useAppSelector((state) => state.loadingStatus.comments);
+  const commentsLoading = useAppSelector((state) => state.SETTINGS.loadingStatus.comments);
 
-  const nearbyLoading = useAppSelector((state) => state.loadingStatus.nearby);
+  const nearbyLoading = useAppSelector((state) => state.SETTINGS.loadingStatus.nearby);
 
   const changeFavorite = useChangeFavorite();
 

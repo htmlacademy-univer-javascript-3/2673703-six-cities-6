@@ -3,7 +3,7 @@ import {AppRoute} from '../../const.ts';
 import {FormEvent, useRef} from 'react';
 import {useAppDispatch} from '../../hooks';
 import {loginAction} from '../../store/api-actions.ts';
-import {setUserEmail} from '../../store/action.ts';
+import {processErrorHandle} from '../../services/process-error-handle.ts';
 
 
 function Login() {
@@ -27,6 +27,8 @@ function Login() {
       }
     }
 
+    processErrorHandle('Invalid Password');
+
     return false;
 
   };
@@ -48,8 +50,6 @@ function Login() {
         login: email,
         password: password,
       }));
-
-      dispatch(setUserEmail(email));
     }
 
   };

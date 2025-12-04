@@ -20,7 +20,7 @@ function groupCards(offers: CitiesCardProps[]) {
 }
 
 function Favorites() {
-  const favoritesOffers = useAppSelector((state) => state.user.favorites);
+  const favoritesOffers = useAppSelector((state) => state.USER.user.favorites);
 
   if (favoritesOffers.length === 0) {
     return <FavoritesEmpty />;

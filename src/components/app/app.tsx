@@ -13,8 +13,8 @@ import browserHistory from '../../browser-history.ts';
 
 
 function App() {
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const isOffersLoading = useAppSelector((state) => state.loadingStatus.offers);
+  const authorizationStatus = useAppSelector((state) => state.USER.authorizationStatus);
+  const isOffersLoading = useAppSelector((state) => state.SETTINGS.loadingStatus.offers);
 
   if (authorizationStatus === AuthorizationStatus.Unknow || isOffersLoading) {
     return (

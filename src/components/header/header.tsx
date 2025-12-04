@@ -2,11 +2,11 @@
 import {AppRoute, AuthorizationStatus} from '../../const.ts';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {fetchFavorites, logoutAction} from '../../store/api-actions.ts';
-import {useEffect} from 'react';
+import {memo, useEffect} from 'react';
 
 
 function HeaderWithAuthorization() {
-  const user = useAppSelector((state) => state.user);
+  const user = useAppSelector((state) => state.USER.user);
   const {email, avatar, favorites} = user;
   const dispatch = useAppDispatch();
 
@@ -21,7 +21,7 @@ function HeaderWithAuthorization() {
   return (
     <ul className="header__nav-list">
       <li className="header__nav-item user">
-        <a className="header__nav-link header__nav-link--profile" href="#">
+        <a className="header__nav-link header__nav-link--profile">
           <div className="header__avatar-wrapper user__avatar-wrapper">
             <img src={avatar!} />
           </div>
@@ -55,7 +55,7 @@ function HeaderWithoutAuthorization() {
 }
 
 function Header() {
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const authorizationStatus = useAppSelector((state) => state.USER.authorizationStatus);
 
   return (
     <header className="header">
@@ -68,9 +68,9 @@ function Header() {
           </div>
           <nav className="header__nav">
             {
-              authorizationStatus === AuthorizationStatus.NoAuth
-                ? <HeaderWithoutAuthorization />
-                : <HeaderWithAuthorization />
+              authorizationStatus === AuthorizationStatus.Auth
+                ? <HeaderWithAuthorization />
+                : <HeaderWithoutAuthorization />
             }
           </nav>
         </div>
@@ -79,4 +79,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default memo(Header);

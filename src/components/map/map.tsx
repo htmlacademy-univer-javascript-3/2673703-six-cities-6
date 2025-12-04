@@ -12,8 +12,8 @@ type MapProps = {
 };
 
 function Map({chosenId, className}: MapProps) {
-  const city = useAppSelector((state) => state.city);
-  const offers = useAppSelector((state) => state.offers)
+  const city = useAppSelector((state) => state.OFFERS.city);
+  const offers = useAppSelector((state) => state.OFFERS.offers)
     .filter((offer) => offer.city.name === city.name);
 
   const mapRef: MutableRefObject<null | HTMLDivElement> = useRef(null);

@@ -1,5 +1,6 @@
 ﻿import {createAction} from '@reduxjs/toolkit';
-import {Action, AppRoute, AuthorizationStatus} from '../const.ts';
+import {Action, AppRoute} from '../const.ts';
+/*
 import {CityProps} from '../types/city.ts';
 import {SortingOption} from '../types/sorting-option.ts';
 import {CitiesCardProps} from '../types/cities-card.ts';
@@ -13,7 +14,7 @@ export const changeCity = createAction(Action.CHANGE_CITY, (city: CityProps) => 
   }
 ));
 
-export const fillOffer = createAction(Action.FILL_OFFER, (offers: CitiesCardProps[]) => (
+export const fillOffers = createAction(Action.FILL_OFFER, (offers: CitiesCardProps[]) => (
   {
     payload: offers
   }
@@ -25,8 +26,6 @@ export const changeSorting = createAction(Action.CHANGE_SORTING, (sortingOption:
   }
 ));
 
-export const loadOffers = createAction<CitiesCardProps[]>(Action.LOAD_OFFERS);
-
 export const requireAuthorization = createAction<AuthorizationStatus>(Action.REQUIRE_AUTHORIZATION);
 
 export const setError = createAction<string | null>(Action.SET_ERROR);
@@ -37,7 +36,6 @@ export const setUserEmail = createAction<string | null>(Action.SET_USER_EMAIL);
 
 export const setUserAvatar = createAction<string | null>(Action.SET_USER_AVATAR);
 
-export const redirectToRoute = createAction<AppRoute>(Action.REDIRECT);
 
 export const loadCurrentOffer = createAction<OfferProps | null >(Action.LOAD_CURRENT_OFFER);
 
@@ -54,3 +52,7 @@ export const changeNearbyLoadingStatus = createAction<boolean>(Action.CHANGE_NEA
 export const fillFavorites = createAction<CitiesCardProps[]>(Action.FILL_FAVORITES);
 
 export const resetUser = createAction(Action.RESET_USER);
+*/
+
+
+export const redirectToRoute = createAction<AppRoute>(Action.REDIRECT);

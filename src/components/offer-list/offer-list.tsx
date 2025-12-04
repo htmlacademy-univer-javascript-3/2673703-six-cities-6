@@ -6,7 +6,6 @@ import {getSortedOffers} from '../../utils/get-sorted-offers.ts';
 import {CitiesCardProps} from '../../types/cities-card.ts';
 import {memo, useMemo} from 'react';
 
-
 type OfferListProps = {
   setChosenId: (id: CitiesCardProps['id'] | null) => void;
 }
@@ -20,7 +19,6 @@ function OfferList({setChosenId}: OfferListProps) {
 
   const offers = useMemo(() => getSortedOffers(offersFromServer, currenSorting)
     .filter((offer) => offer.city.name === currentCity.name), [offersFromServer, currenSorting, currentCity]);
-
   if (offersFromServer.length === 0) {
     return <MainEmpty />;
   }
@@ -34,15 +32,14 @@ function OfferList({setChosenId}: OfferListProps) {
         {offers.map((card) => (
           <CitesCard key={card.id}
             offer={card}
-            onMouseEnter={() => setChosenId(card.id)}
-            onMouseLeave={() => setChosenId(null)}
+            setChosenId={setChosenId}
           />
         ))}
       </div>
     </section>
-
-
   );
 }
 
-export default memo(OfferList);
+const MemoOfferList = memo(OfferList);
+
+export default MemoOfferList;

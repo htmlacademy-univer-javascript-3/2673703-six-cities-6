@@ -2,6 +2,7 @@
 import {AppRoute} from '../../const.ts';
 import {CitiesCardProps} from '../../types/cities-card.ts';
 import {useChangeFavorite} from '../../hooks/use-change-favorite.ts';
+import {memo} from 'react';
 
 type FavoriteCardProps = {
   offer: CitiesCardProps;
@@ -55,4 +56,6 @@ function FavoriteCard({offer}: FavoriteCardProps) {
   );
 }
 
-export default FavoriteCard;
+const MemoFavoriteCard = memo(FavoriteCard);
+
+export default MemoFavoriteCard;

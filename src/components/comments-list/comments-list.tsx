@@ -2,6 +2,7 @@
 import Comment from '../comment/comment.tsx';
 import {useAppSelector} from '../../hooks';
 import {AuthorizationStatus} from '../../const.ts';
+import {memo} from 'react';
 
 
 function CommentsList() {
@@ -25,4 +26,6 @@ function CommentsList() {
   );
 }
 
-export default CommentsList;
+const MemoCommentsList = memo(CommentsList);
+
+export default MemoCommentsList;

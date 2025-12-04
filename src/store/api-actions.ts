@@ -10,13 +10,11 @@ import {
 import {AuthData} from '../types/auth-data.ts';
 import {dropToken, setToken} from '../services/token.ts';
 import {UserProps} from '../types/user.ts';
-import {store} from './index.ts';
 import {CommentProps} from '../types/comment.ts';
 import {CommentData} from '../types/comment-data.ts';
 import {getFavoriteStatus} from '../utils/get-favorite-status.ts';
-import {fillFavorites} from './user-process/user-process.ts';
 import {setError} from './settings-process/setting-process.ts';
-import {fillNearby, fillOffers, loadCurrentOffer} from './offers-process/offers-process.ts';
+import {ChangeStatus} from '../types/change-status.ts';
 
 type Extra = {
   extra: AxiosInstance;
@@ -109,9 +107,9 @@ export const logoutAction = createAsyncThunk<void, undefined, Extra>(
 
 export const clearErrorAction = createAsyncThunk(
   'data/clearError',
-  () => {
+  (_arg, { dispatch }) => {
     setTimeout(
-      () => store.dispatch(setError(null)),
+      () => dispatch(setError(null)),
       TIMEOUT_SHOW_ERROR,
     );
   }
@@ -127,7 +125,7 @@ export const fetchFavorites = createAsyncThunk<CitiesCardProps[], undefined, Ext
 );
 
 
-export const changeFavorites = createAsyncThunk<void, OfferProps['id'], Extra>(
+export const changeFavorites = createAsyncThunk<ChangeStatus, OfferProps['id'], Extra>(
   'data/changeFavorites',
   async (id, {dispatch, extra: api, getState}) => {
     const state = getState() as State;
@@ -137,45 +135,18 @@ export const changeFavorites = createAsyncThunk<void, OfferProps['id'], Extra>(
     if (authorizationStatus !== AuthorizationStatus.Auth) {
       dispatch(redirectToRoute(AppRoute.Login));
       dispatch(setError('Not authorized'));
-      return;
+      throw Error('Not authorized');
     }
 
-    const status = getFavoriteStatus(id, state.USER.user.favorites);
+    const status = getFavoriteStatus(id, state.OFFERS.favorites);
 
     const {data} = await api.post<OfferProps>(`${APIRoute.Favorite}/${id}/${status}`);
 
 
-    const currentFavorites = state.USER.user.favorites;
-
-    const updatedFavorites =
-      status === 1
-        ? [...currentFavorites, data]
-        : currentFavorites.filter((offer) => offer.id !== id);
-
-    dispatch(fillFavorites(updatedFavorites));
-
-    const updatedOffers = state.OFFERS.offers.map((offer) =>
-      offer.id === data.id
-        ? { ...offer, isFavorite: data.isFavorite }
-        : offer
-    );
-
-    dispatch(fillOffers(updatedOffers));
-
-    const updatedNearby = state.OFFERS.current.nearby.map((offer) =>
-      offer.id === data.id
-        ? { ...offer, isFavorite: data.isFavorite }
-        : offer
-    );
-
-    dispatch(fillNearby(updatedNearby));
-
-    const currentOffer = state.OFFERS.current.offer;
-
-    if (currentOffer && currentOffer.id === data.id) {
-      const updatedCurrentOffer = { ...currentOffer, isFavorite: data.isFavorite };
-      dispatch(loadCurrentOffer(updatedCurrentOffer));
-    }
+    return {
+      status,
+      offer: data,
+    };
   }
 );
 

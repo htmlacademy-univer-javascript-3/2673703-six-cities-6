@@ -1,7 +1,7 @@
 ﻿import {OfferProps} from '../../types/offer.ts';
 import {useParams} from 'react-router-dom';
 import CommentsList from '../../components/comments-list/comments-list.tsx';
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import Map from '../../components/map/map.tsx';
 import NeighbourhoodList from '../../components/neighbourhood-list/neighbourhood-list.tsx';
 import Header from '../../components/header/header.tsx';
@@ -15,7 +15,12 @@ import {fillComments, fillNearby, loadCurrentOffer} from '../../store/offers-pro
 function Offer() {
 
   const dispatch = useAppDispatch();
-  const [chosenId, setChosenId] = useState<OfferProps['id'] | null>(null);
+  const [chosenId, setChosenIdState] = useState<OfferProps['id'] | null>(null);
+
+  const setChosenId = useCallback(
+    (id: OfferProps['id'] | null) => setChosenIdState(id),
+    []
+  );
 
   const {id} = useParams<{ id: string }>();
 

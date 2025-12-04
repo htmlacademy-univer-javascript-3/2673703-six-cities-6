@@ -1,8 +1,7 @@
 ﻿import {UserProcessInitial} from './user-process.t.ts';
 import {AuthorizationStatus, NameSpace} from '../../const.ts';
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {checkAuthAction, fetchFavorites, loginAction, logoutAction} from '../api-actions.ts';
-import {CitiesCardProps} from '../../types/cities-card.ts';
+import {createSlice} from '@reduxjs/toolkit';
+import {checkAuthAction, loginAction, logoutAction} from '../api-actions.ts';
 
 
 const initialState: UserProcessInitial = {
@@ -10,25 +9,13 @@ const initialState: UserProcessInitial = {
   user: {
     email: null,
     avatar: null,
-    favorites: [],
   },
 };
 
 export const userProcess = createSlice({
   name: NameSpace.User,
   initialState,
-  reducers: {
-    resetUser(state) {
-      state.user = {
-        email: null,
-        avatar: null,
-        favorites: [],
-      };
-    },
-    fillFavorites(state, action: PayloadAction<CitiesCardProps[]>) {
-      state.user.favorites = action.payload;
-    },
-  },
+  reducers: {},
   extraReducers(builder) {
     builder
       .addCase(checkAuthAction.fulfilled, (state, action) => {
@@ -52,13 +39,7 @@ export const userProcess = createSlice({
         state.user = {
           email: null,
           avatar: null,
-          favorites: [],
         };
-      })
-      .addCase(fetchFavorites.fulfilled, (state, action) => {
-        state.user.favorites = action.payload;
       });
   }
 });
-
-export const {fillFavorites} = userProcess.actions;

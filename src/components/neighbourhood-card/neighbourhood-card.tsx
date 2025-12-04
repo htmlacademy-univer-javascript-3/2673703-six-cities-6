@@ -2,19 +2,24 @@
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const.ts';
 import {useChangeFavorite} from '../../hooks/use-change-favorite.ts';
+import {OfferProps} from '../../types/offer.ts';
+import {memo, useCallback} from 'react';
 
 
 type NeighbourhoodCardProps = {
   offer: CitiesCardProps;
-  onMouseEnter?: () => void;
-  onMouseLeave?: () => void;
+  setChosenId: (id: OfferProps['id'] | null) => void;
 }
 
-function NeighbourhoodCard({offer, onMouseEnter, onMouseLeave}: NeighbourhoodCardProps) {
+function NeighbourhoodCard({offer, setChosenId}: NeighbourhoodCardProps) {
+  const {id} = offer;
+
+  const handleMouseEnter = useCallback(() => setChosenId(id), [setChosenId, id]);
+  const handleMouseLeave = useCallback(() => setChosenId(null), [setChosenId]);
 
   const changeFavorite = useChangeFavorite();
   return (
-    <article className="near-places__card place-card" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+    <article className="near-places__card place-card" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <div className="near-places__image-wrapper place-card__image-wrapper">
         <Link to={`${AppRoute.Offer}/${offer.id}`}>
           <img className="place-card__image" src={offer.previewImage} width="260" height="200" alt="Place image"/>
@@ -52,5 +57,6 @@ function NeighbourhoodCard({offer, onMouseEnter, onMouseLeave}: NeighbourhoodCar
   );
 }
 
+const MemoNeighbourhoodCard = memo(NeighbourhoodCard);
 
-export default NeighbourhoodCard;
+export default MemoNeighbourhoodCard;

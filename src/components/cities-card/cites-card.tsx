@@ -2,22 +2,24 @@
 import {AppRoute} from '../../const.ts';
 import {CitiesCardProps} from '../../types/cities-card.ts';
 import {useChangeFavorite} from '../../hooks/use-change-favorite.ts';
-import {memo} from 'react';
+import {memo, useCallback} from 'react';
 
 type CitesCardComponentProps = {
   offer: CitiesCardProps;
-  onMouseEnter?: () => void;
-  onMouseLeave?: () => void;
+  setChosenId: (id: CitiesCardProps['id'] | null) => void;
 }
 
-function CitesCard({offer, onMouseEnter, onMouseLeave}: CitesCardComponentProps) {
+function CitesCard({offer, setChosenId}: CitesCardComponentProps) {
   const {isPremium, isFavorite, previewImage, price, title, type, id} = offer;
+
+  const handleMouseEnter = useCallback(() => setChosenId(id), [setChosenId, id]);
+  const handleMouseLeave = useCallback(() => setChosenId(null), [setChosenId]);
 
 
   const changeFavorite = useChangeFavorite();
 
   return (
-    <article className="cities__card place-card" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+    <article className="cities__card place-card" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       {
         isPremium &&
         <div className="place-card__mark">
@@ -61,5 +63,7 @@ function CitesCard({offer, onMouseEnter, onMouseLeave}: CitesCardComponentProps)
   );
 }
 
-export default memo(CitesCard);
+const MemoCitesCard = memo(CitesCard);
+
+export default MemoCitesCard;
 

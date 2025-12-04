@@ -7,8 +7,11 @@ import {memo, useEffect} from 'react';
 
 function HeaderWithAuthorization() {
   const user = useAppSelector((state) => state.USER.user);
-  const {email, avatar, favorites} = user;
+  const favorites = useAppSelector((state) => state.OFFERS.favorites);
   const dispatch = useAppDispatch();
+
+  const {email, avatar} = user;
+
 
   useEffect(() => {
     dispatch(fetchFavorites());
@@ -23,7 +26,7 @@ function HeaderWithAuthorization() {
       <li className="header__nav-item user">
         <a className="header__nav-link header__nav-link--profile">
           <div className="header__avatar-wrapper user__avatar-wrapper">
-            <img src={avatar!} />
+            <img src={avatar!} alt={'avatar'}/>
           </div>
           <Link to={AppRoute.Favorites}>
             <span className="header__user-name user__name">{email}</span>
@@ -79,4 +82,6 @@ function Header() {
   );
 }
 
-export default memo(Header);
+const MemoHeader = memo(Header);
+
+export default MemoHeader;

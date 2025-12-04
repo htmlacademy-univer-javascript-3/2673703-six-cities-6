@@ -7,6 +7,7 @@ import {CommentProps} from '../../types/comment.ts';
 export type OffersProcessInitial = {
   city: CityProps;
   offers: CitiesCardProps[];
+  favorites: CitiesCardProps[];
   current: {
     offer: OfferProps | null;
     comments: CommentProps[];

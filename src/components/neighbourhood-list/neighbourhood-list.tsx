@@ -1,6 +1,7 @@
 ﻿import {OfferProps} from '../../types/offer.ts';
 import NeighbourhoodCard from '../neighbourhood-card/neighbourhood-card.tsx';
 import {useAppSelector} from '../../hooks';
+import {memo} from 'react';
 
 
 type NeighbourhoodListProps = {
@@ -20,8 +21,7 @@ function NeighbourhoodList({setChosenId}: NeighbourhoodListProps) {
             offers.map((card) => (
               <NeighbourhoodCard key={card.id}
                 offer={card}
-                onMouseEnter={() => setChosenId(card.id)}
-                onMouseLeave={() => setChosenId(null)}
+                setChosenId={setChosenId}
               />
             ))
           }
@@ -32,4 +32,6 @@ function NeighbourhoodList({setChosenId}: NeighbourhoodListProps) {
   );
 }
 
-export default NeighbourhoodList;
+const MemoNeighbourhoodList = memo(NeighbourhoodList);
+
+export default MemoNeighbourhoodList;

@@ -27,7 +27,10 @@ function SortingOptions() {
               key={option}
               className={`places__option ${option === currentOption ? 'places__option--active' : ''}`}
               tabIndex={0}
-              onClick={() => dispatch(changeSorting(option))}
+              onClick={() => {
+                dispatch(changeSorting(option));
+                setOpenFlag((prevState) => !prevState);
+              }}
             >
               {option}
             </li>

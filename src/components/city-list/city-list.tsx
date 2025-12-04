@@ -44,7 +44,8 @@ function CityList({cities}: CityListProps) {
   );
 }
 
+const MemoCityList = memo(CityList);
 
-export default memo(CityList);
+export default MemoCityList;
 
 

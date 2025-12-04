@@ -43,4 +43,6 @@ function Comment({comment}: CommentComponentProps) {
   );
 }
 
-export default memo(Comment);
+const MemoComment = memo(Comment);
+
+export default MemoComment;

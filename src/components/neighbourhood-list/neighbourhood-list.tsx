@@ -2,6 +2,7 @@
 import NeighbourhoodCard from '../neighbourhood-card/neighbourhood-card.tsx';
 import {useAppSelector} from '../../hooks';
 import {memo} from 'react';
+import {getCurrenOffer} from '../../store/offers-process/selectors.ts';
 
 
 type NeighbourhoodListProps = {
@@ -9,7 +10,7 @@ type NeighbourhoodListProps = {
 }
 
 function NeighbourhoodList({setChosenId}: NeighbourhoodListProps) {
-  const offers = useAppSelector((state) => state.OFFERS.current.nearby);
+  const offers = useAppSelector(getCurrenOffer).nearby;
 
   return (
     <div className="container">

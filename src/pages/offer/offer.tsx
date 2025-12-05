@@ -10,6 +10,8 @@ import {useAppDispatch, useAppSelector} from '../../hooks';
 import Spinner from '../../components/spinner/spinner.tsx';
 import {useChangeFavorite} from '../../hooks/use-change-favorite.ts';
 import {fillComments, fillNearby, loadCurrentOffer} from '../../store/offers-process/offers-process.ts';
+import {getLoadingStatus} from '../../store/settings-process/selectors.ts';
+import {getCurrenOffer} from '../../store/offers-process/selectors.ts';
 
 
 function Offer() {
@@ -24,12 +26,12 @@ function Offer() {
 
   const {id} = useParams<{ id: string }>();
 
-  const offerLoading = useAppSelector((state) => state.SETTINGS.loadingStatus.current);
-  const offer = useAppSelector((state) => state.OFFERS.current.offer);
+  const offerLoading = useAppSelector(getLoadingStatus).current;
+  const offer = useAppSelector(getCurrenOffer).offer;
 
-  const commentsLoading = useAppSelector((state) => state.SETTINGS.loadingStatus.comments);
+  const commentsLoading = useAppSelector(getLoadingStatus).comments;
 
-  const nearbyLoading = useAppSelector((state) => state.SETTINGS.loadingStatus.nearby);
+  const nearbyLoading = useAppSelector(getLoadingStatus).nearby;
 
   const changeFavorite = useChangeFavorite();
 

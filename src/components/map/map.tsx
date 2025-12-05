@@ -4,6 +4,7 @@ import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import {URL_MARKER_CURRENT, URL_MARKER_DEFAULT} from '../../const.ts';
 import {useAppSelector} from '../../hooks';
+import {getCity, getOffers} from '../../store/offers-process/selectors.ts';
 
 
 type MapProps = {
@@ -12,9 +13,8 @@ type MapProps = {
 };
 
 function Map({chosenId, className}: MapProps) {
-  const city = useAppSelector((state) => state.OFFERS.city);
-  const offers = useAppSelector((state) => state.OFFERS.offers)
-    .filter((offer) => offer.city.name === city.name);
+  const city = useAppSelector(getCity);
+  const offers = useAppSelector(getOffers).filter((offer) => offer.city.name === city.name);
 
   const mapRef: MutableRefObject<null | HTMLDivElement> = useRef(null);
   const map = useMap(mapRef, city);

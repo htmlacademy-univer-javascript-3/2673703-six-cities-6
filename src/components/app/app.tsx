@@ -10,11 +10,13 @@ import {useAppSelector} from '../../hooks';
 import Spinner from '../spinner/spinner.tsx';
 import HistoryRouter from '../history-route/history-route.tsx';
 import browserHistory from '../../browser-history.ts';
+import {getAuthorizationStatus} from '../../store/user-process/selectors.ts';
+import {getLoadingStatus} from '../../store/settings-process/selectors.ts';
 
 
 function App() {
-  const authorizationStatus = useAppSelector((state) => state.USER.authorizationStatus);
-  const isOffersLoading = useAppSelector((state) => state.SETTINGS.loadingStatus.offers);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const isOffersLoading = useAppSelector(getLoadingStatus).offers;
 
   if (authorizationStatus === AuthorizationStatus.Unknow || isOffersLoading) {
     return (

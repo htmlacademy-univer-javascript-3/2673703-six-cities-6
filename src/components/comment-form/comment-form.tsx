@@ -3,6 +3,7 @@ import {MAX_COMMENT_LENGTH, MIN_COMMENT_LENGTH} from '../../const.ts';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {CommentData} from '../../types/comment-data.ts';
 import {sendComment} from '../../store/api-actions.ts';
+import {getCurrenOffer} from '../../store/offers-process/selectors.ts';
 
 
 type CommentForm = {
@@ -20,7 +21,7 @@ const ratingMap = {
 
 function CommentForm() {
   const dispatch = useAppDispatch();
-  const currentOffer = useAppSelector((state) => state.OFFERS.current.offer);
+  const currentOffer = useAppSelector(getCurrenOffer).offer;
 
   const [form, setForm] = useState<CommentForm>({
     comment: '',

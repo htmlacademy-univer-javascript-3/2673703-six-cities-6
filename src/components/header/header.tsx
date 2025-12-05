@@ -3,11 +3,13 @@ import {AppRoute, AuthorizationStatus} from '../../const.ts';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {fetchFavorites, logoutAction} from '../../store/api-actions.ts';
 import {memo, useEffect} from 'react';
+import {getAuthorizationStatus, getUser} from '../../store/user-process/selectors.ts';
+import {getFavorites} from '../../store/offers-process/selectors.ts';
 
 
 function HeaderWithAuthorization() {
-  const user = useAppSelector((state) => state.USER.user);
-  const favorites = useAppSelector((state) => state.OFFERS.favorites);
+  const user = useAppSelector(getUser);
+  const favorites = useAppSelector(getFavorites);
   const dispatch = useAppDispatch();
 
   const {email, avatar} = user;
@@ -58,7 +60,7 @@ function HeaderWithoutAuthorization() {
 }
 
 function Header() {
-  const authorizationStatus = useAppSelector((state) => state.USER.authorizationStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   return (
     <header className="header">

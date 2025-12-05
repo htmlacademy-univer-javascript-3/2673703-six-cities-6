@@ -135,7 +135,6 @@ export const changeFavorites = createAsyncThunk<ChangeStatus, OfferProps['id'], 
     if (authorizationStatus !== AuthorizationStatus.Auth) {
       dispatch(redirectToRoute(AppRoute.Login));
       dispatch(setError('Not authorized'));
-      throw Error('Not authorized');
     }
 
     const status = getFavoriteStatus(id, state.OFFERS.favorites);

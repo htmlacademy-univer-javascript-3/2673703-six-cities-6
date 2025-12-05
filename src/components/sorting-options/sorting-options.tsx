@@ -2,11 +2,12 @@
 import {SortingOptionVariants} from '../../const.ts';
 import {useState} from 'react';
 import {changeSorting} from '../../store/settings-process/setting-process.ts';
+import {getSortingOption} from '../../store/settings-process/selectors.ts';
 
 
 function SortingOptions() {
   const [openFlag, setOpenFlag] = useState<boolean>(false);
-  const currentOption = useAppSelector((state) => state.SETTINGS.sortingOption);
+  const currentOption = useAppSelector(getSortingOption);
   const sortingOptions = Object.values(SortingOptionVariants);
 
   const dispatch = useAppDispatch();

@@ -1,7 +1,8 @@
 ﻿import {useAppSelector} from '../../hooks';
+import {getCity} from '../../store/offers-process/selectors.ts';
 
 function MainEmpty() {
-  const currentCity = useAppSelector((state) => state.OFFERS.city);
+  const currentCity = useAppSelector(getCity);
   return (
     <div className="page page--gray page--main">
 

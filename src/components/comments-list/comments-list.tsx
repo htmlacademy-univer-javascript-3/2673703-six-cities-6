@@ -3,11 +3,13 @@ import Comment from '../comment/comment.tsx';
 import {useAppSelector} from '../../hooks';
 import {AuthorizationStatus} from '../../const.ts';
 import {memo} from 'react';
+import {getAuthorizationStatus} from '../../store/user-process/selectors.ts';
+import {getCurrenOffer} from '../../store/offers-process/selectors.ts';
 
 
 function CommentsList() {
-  const authorizationStatus = useAppSelector((state) => state.USER.authorizationStatus);
-  const comments = useAppSelector((state) => state.OFFERS.current.comments);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const comments = useAppSelector(getCurrenOffer).comments;
 
   return (
     <section className="offer__reviews reviews">

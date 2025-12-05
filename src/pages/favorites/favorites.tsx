@@ -5,6 +5,7 @@ import {AppRoute} from '../../const.ts';
 import {CitiesCardProps} from '../../types/cities-card.ts';
 import {useAppSelector} from '../../hooks';
 import FavoritesEmpty from './favorites-empty.tsx';
+import {getFavorites} from '../../store/offers-process/selectors.ts';
 
 function groupCards(offers: CitiesCardProps[]) {
   const map = new Map<string, CitiesCardProps[]>();
@@ -20,7 +21,7 @@ function groupCards(offers: CitiesCardProps[]) {
 }
 
 function Favorites() {
-  const favoritesOffers = useAppSelector((state) => state.OFFERS.favorites);
+  const favoritesOffers = useAppSelector(getFavorites);
 
   if (favoritesOffers.length === 0) {
     return <FavoritesEmpty />;

@@ -71,3 +71,6 @@ export enum NameSpace {
   Offers = 'OFFERS',
   Settings = 'SETTINGS',
 }
+
+export const MAX_NEARBY_OFFERS = 3;
+export const MAX_COMMENTS_COUNT = 10;

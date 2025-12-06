@@ -1,7 +1,6 @@
-﻿import {OfferProps} from '../../types/offer.ts';
-import {useParams} from 'react-router-dom';
+﻿import {useParams} from 'react-router-dom';
 import CommentsList from '../../components/comments-list/comments-list.tsx';
-import {useCallback, useEffect, useState} from 'react';
+import {useEffect} from 'react';
 import Map from '../../components/map/map.tsx';
 import NeighbourhoodList from '../../components/neighbourhood-list/neighbourhood-list.tsx';
 import Header from '../../components/header/header.tsx';
@@ -17,12 +16,6 @@ import {getLoadingStatus} from '../../store/loading-process/selectors.ts';
 function Offer() {
 
   const dispatch = useAppDispatch();
-  const [chosenId, setChosenIdState] = useState<OfferProps['id'] | null>(null);
-
-  const setChosenId = useCallback(
-    (id: OfferProps['id'] | null) => setChosenIdState(id),
-    []
-  );
 
   const {id} = useParams<{ id: string }>();
 
@@ -60,6 +53,8 @@ function Offer() {
       <h1>Такого объявления нет</h1>
     );
   }
+
+  const chosenId = offer.id;
 
   const isFavorite = offer.isFavorite;
   return (
@@ -172,9 +167,7 @@ function Offer() {
             className={'offer__map map'}
           />
         </section>
-        <NeighbourhoodList
-          setChosenId={setChosenId}
-        />
+        <NeighbourhoodList/>
       </main>
     </div>
   );

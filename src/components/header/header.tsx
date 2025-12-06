@@ -26,7 +26,7 @@ function HeaderWithAuthorization() {
   return (
     <ul className="header__nav-list">
       <li className="header__nav-item user">
-        <a className="header__nav-link header__nav-link--profile">
+        <div className="header__nav-link header__nav-link--profile">
           <div className="header__avatar-wrapper user__avatar-wrapper">
             <img src={avatar!} alt={'avatar'}/>
           </div>
@@ -34,7 +34,7 @@ function HeaderWithAuthorization() {
             <span className="header__user-name user__name">{email}</span>
             <span className="header__favorite-count">{favorites.length}</span>
           </Link>
-        </a>
+        </div>
       </li>
       <li className="header__nav-item" onClick={handleSignOut}>
         <a className="header__nav-link" >

@@ -1,16 +1,12 @@
-﻿import {OfferProps} from '../../types/offer.ts';
-import NeighbourhoodCard from '../neighbourhood-card/neighbourhood-card.tsx';
+﻿import NeighbourhoodCard from '../neighbourhood-card/neighbourhood-card.tsx';
 import {useAppSelector} from '../../hooks';
 import {memo} from 'react';
 import {getCurrenOffer} from '../../store/offers-process/selectors.ts';
+import {MAX_NEARBY_OFFERS} from '../../const.ts';
 
 
-type NeighbourhoodListProps = {
-  setChosenId: (id: OfferProps['id'] | null) => void;
-}
-
-function NeighbourhoodList({setChosenId}: NeighbourhoodListProps) {
-  const offers = useAppSelector(getCurrenOffer).nearby;
+function NeighbourhoodList() {
+  const offers = useAppSelector(getCurrenOffer).nearby.slice(0, MAX_NEARBY_OFFERS);
 
   return (
     <div className="container">
@@ -22,7 +18,6 @@ function NeighbourhoodList({setChosenId}: NeighbourhoodListProps) {
             offers.map((card) => (
               <NeighbourhoodCard key={card.id}
                 offer={card}
-                setChosenId={setChosenId}
               />
             ))
           }

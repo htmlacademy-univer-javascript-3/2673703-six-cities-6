@@ -10,8 +10,8 @@ import {useAppDispatch, useAppSelector} from '../../hooks';
 import Spinner from '../../components/spinner/spinner.tsx';
 import {useChangeFavorite} from '../../hooks/use-change-favorite.ts';
 import {fillComments, fillNearby, loadCurrentOffer} from '../../store/offers-process/offers-process.ts';
-import {getLoadingStatus} from '../../store/settings-process/selectors.ts';
 import {getCurrenOffer} from '../../store/offers-process/selectors.ts';
+import {getLoadingStatus} from '../../store/loading-process/selectors.ts';
 
 
 function Offer() {

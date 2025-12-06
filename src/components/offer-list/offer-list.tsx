@@ -14,13 +14,14 @@ type OfferListProps = {
 
 function OfferList({setChosenId}: OfferListProps) {
 
+
   const currentCity = useAppSelector(getCity);
   const currenSorting = useAppSelector(getSortingOption);
 
   const offersFromServer = useAppSelector(getOffers);
 
   const offers = useMemo(() => getSortedOffers(offersFromServer, currenSorting)
-    .filter((offer) => offer.city.name === currentCity.name), [offersFromServer, currenSorting, currentCity]);
+    .filter((offer) => offer.city.name === currentCity.name), [offersFromServer, currenSorting, currentCity.name]);
   if (offersFromServer.length === 0) {
     return <MainEmpty />;
   }

@@ -11,7 +11,7 @@ import Spinner from '../spinner/spinner.tsx';
 import HistoryRouter from '../history-route/history-route.tsx';
 import browserHistory from '../../browser-history.ts';
 import {getAuthorizationStatus} from '../../store/user-process/selectors.ts';
-import {getLoadingStatus} from '../../store/settings-process/selectors.ts';
+import {getLoadingStatus} from '../../store/loading-process/selectors.ts';
 
 
 function App() {

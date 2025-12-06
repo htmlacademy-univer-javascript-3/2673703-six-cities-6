@@ -62,4 +62,5 @@ function Map({chosenId, className}: MapProps) {
   );
 }
 
+
 export default Map;

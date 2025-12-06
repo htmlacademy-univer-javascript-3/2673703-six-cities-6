@@ -8,4 +8,3 @@ export const getSortingOption = (state: State): SortingOption => state[NameSpace
 
 export const getError = (state: State): ErrorT => state[NameSpace.Settings].error;
 
-export const getLoadingStatus = (state: State) => state[NameSpace.Settings].loadingStatus;

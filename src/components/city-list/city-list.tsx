@@ -1,7 +1,10 @@
 ﻿import {CityProps} from '../../types/city.ts';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {changeCity, changeSorting} from '../../store/action.ts';
 import {SortingOptionVariants} from '../../const.ts';
+import {memo} from 'react';
+import {changeCity} from '../../store/offers-process/offers-process.ts';
+import {changeSorting} from '../../store/settings-process/setting-process.ts';
+import {getCity} from '../../store/offers-process/selectors.ts';
 
 type CityListProps = {
   cities: CityProps[];
@@ -9,7 +12,7 @@ type CityListProps = {
 
 function CityList({cities}: CityListProps) {
   const namesOfCities = cities.map((city) => city.name);
-  const currentCity = useAppSelector((state) => state.city);
+  const currentCity = useAppSelector(getCity);
 
   const cityMap = Object.fromEntries(
     cities.map((city) => [city.name, city])
@@ -42,7 +45,8 @@ function CityList({cities}: CityListProps) {
   );
 }
 
+const MemoCityList = memo(CityList);
 
-export default CityList;
+export default MemoCityList;
 
 

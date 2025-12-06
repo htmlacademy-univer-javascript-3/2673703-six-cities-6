@@ -1,6 +1,6 @@
 ﻿import {store} from '../store';
-import {setError} from '../store/action.ts';
 import {clearErrorAction} from '../store/api-actions.ts';
+import {setError} from '../store/settings-process/setting-process.ts';
 
 
 export const processErrorHandle = (message: string) => {

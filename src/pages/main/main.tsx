@@ -1,14 +1,20 @@
 ﻿import {OfferProps} from '../../types/offer.ts';
 import OfferList from '../../components/offer-list/offer-list.tsx';
-import {useState} from 'react';
+import {useCallback, useState} from 'react';
 import Map from '../../components/map/map.tsx';
 import CityList from '../../components/city-list/city-list.tsx';
 import {getCities} from '../../mocks/cities.ts';
 import Header from '../../components/header/header.tsx';
+import {CitiesCardProps} from '../../types/cities-card.ts';
 
 
 function Main() {
-  const [chosenId, setChosenId] = useState<OfferProps['id'] | null>(null);
+  const [chosenId, setChosenIdState] = useState<OfferProps['id'] | null>(null);
+
+  const setChosenId = useCallback(
+    (id: CitiesCardProps['id'] | null) => setChosenIdState(id),
+    []
+  );
   return (
     <div className="page page--gray page--main">
       <Header />

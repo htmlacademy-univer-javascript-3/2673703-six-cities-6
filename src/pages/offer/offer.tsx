@@ -1,31 +1,32 @@
-﻿import {OfferProps} from '../../types/offer.ts';
-import {useParams} from 'react-router-dom';
+﻿import {useParams} from 'react-router-dom';
 import CommentsList from '../../components/comments-list/comments-list.tsx';
-import {useEffect, useState} from 'react';
+import {useEffect} from 'react';
 import Map from '../../components/map/map.tsx';
 import NeighbourhoodList from '../../components/neighbourhood-list/neighbourhood-list.tsx';
 import Header from '../../components/header/header.tsx';
 import {fetchComments, fetchNearby, fetchOffer} from '../../store/api-actions.ts';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {fillComments, fillNearby, loadCurrentOffer} from '../../store/action.ts';
 import Spinner from '../../components/spinner/spinner.tsx';
+import {useChangeFavorite} from '../../hooks/use-change-favorite.ts';
+import {fillComments, fillNearby, loadCurrentOffer} from '../../store/offers-process/offers-process.ts';
+import {getCurrenOffer} from '../../store/offers-process/selectors.ts';
+import {getLoadingStatus} from '../../store/loading-process/selectors.ts';
 
 
 function Offer() {
 
   const dispatch = useAppDispatch();
-  const [chosenId, setChosenId] = useState<OfferProps['id'] | null>(null);
 
   const {id} = useParams<{ id: string }>();
 
+  const offerLoading = useAppSelector(getLoadingStatus).current;
+  const offer = useAppSelector(getCurrenOffer).offer;
 
-  const offerLoading = useAppSelector((state) => state.isCurrentLoading);
-  const offer = useAppSelector((state) => state.currentOffer);
+  const commentsLoading = useAppSelector(getLoadingStatus).comments;
 
-  const commentLoading = useAppSelector((state) => state.isCommentsLoading);
-  const comments = useAppSelector((state) => state.currentComments);
+  const nearbyLoading = useAppSelector(getLoadingStatus).nearby;
 
-  const nearbyLoading = useAppSelector((state) => state.isNearbyLoading);
+  const changeFavorite = useChangeFavorite();
 
   useEffect(() => {
     if (id) {
@@ -41,7 +42,7 @@ function Offer() {
     };
   }, [dispatch, id]);
 
-  if (offerLoading || commentLoading || nearbyLoading) {
+  if (offerLoading || commentsLoading || nearbyLoading) {
     return (
       <Spinner size={60} />
     );
@@ -53,6 +54,9 @@ function Offer() {
     );
   }
 
+  const chosenId = offer.id;
+
+  const isFavorite = offer.isFavorite;
   return (
     <div className="page">
       <Header />
@@ -83,7 +87,11 @@ function Offer() {
                 <h1 className="offer__name">
                   {offer.title}
                 </h1>
-                <button className="offer__bookmark-button button" type="button">
+                <button
+                  className={`offer__bookmark-button button ${isFavorite ? 'offer__bookmark-button--active' : ''}`}
+                  type="button"
+                  onClick={() => changeFavorite(offer?.id)}
+                >
                   <svg className="offer__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
                   </svg>
@@ -151,7 +159,7 @@ function Offer() {
                   </p>
                 </div>
               </div>
-              <CommentsList comments={comments} />
+              <CommentsList />
             </div>
           </div>
           <Map
@@ -159,9 +167,7 @@ function Offer() {
             className={'offer__map map'}
           />
         </section>
-        <NeighbourhoodList
-          setChosenId={setChosenId}
-        />
+        <NeighbourhoodList/>
       </main>
     </div>
   );

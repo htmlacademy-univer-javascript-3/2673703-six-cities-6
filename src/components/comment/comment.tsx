@@ -1,4 +1,5 @@
 ﻿import {CommentProps} from '../../types/comment.ts';
+import {memo} from 'react';
 
 type CommentComponentProps = {
   comment: CommentProps;
@@ -42,4 +43,6 @@ function Comment({comment}: CommentComponentProps) {
   );
 }
 
-export default Comment;
+const MemoComment = memo(Comment);
+
+export default MemoComment;

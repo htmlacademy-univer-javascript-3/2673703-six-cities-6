@@ -1,10 +1,13 @@
 ﻿import {useAppDispatch, useAppSelector} from '../../hooks';
 import {SortingOptionVariants} from '../../const.ts';
-import {changeSorting} from '../../store/action.ts';
+import {useState} from 'react';
+import {changeSorting} from '../../store/settings-process/setting-process.ts';
+import {getSortingOption} from '../../store/settings-process/selectors.ts';
 
 
 function SortingOptions() {
-  const currentOption = useAppSelector((state) => state.sortingOption);
+  const [openFlag, setOpenFlag] = useState<boolean>(false);
+  const currentOption = useAppSelector(getSortingOption);
   const sortingOptions = Object.values(SortingOptionVariants);
 
   const dispatch = useAppDispatch();
@@ -12,20 +15,23 @@ function SortingOptions() {
   return(
     <form className="places__sorting" action="#" method="get">
       <span className="places__sorting-caption">Sort by</span>
-      <span className="places__sorting-type" tabIndex={0}>
+      <span className="places__sorting-type" tabIndex={0} onClick={() => setOpenFlag((prevState) => !prevState)}>
         {currentOption}
         <svg className="places__sorting-arrow" width="7" height="4">
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
       </span>
-      <ul className="places__options places__options--custom places__options--opened">
+      <ul className={`places__options places__options--custom ${openFlag ? 'places__options--opened' : ''}`}>
         {
           sortingOptions.map((option) => (
             <li
               key={option}
               className={`places__option ${option === currentOption ? 'places__option--active' : ''}`}
               tabIndex={0}
-              onClick={() => dispatch(changeSorting(option))}
+              onClick={() => {
+                dispatch(changeSorting(option));
+                setOpenFlag((prevState) => !prevState);
+              }}
             >
               {option}
             </li>

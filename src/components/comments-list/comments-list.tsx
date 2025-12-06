@@ -1,21 +1,25 @@
 ﻿import CommentForm from '../comment-form/comment-form.tsx';
-import {CommentProps} from '../../types/comment.ts';
 import Comment from '../comment/comment.tsx';
 import {useAppSelector} from '../../hooks';
-import {AuthorizationStatus} from '../../const.ts';
+import {AuthorizationStatus, MAX_COMMENT_LENGTH} from '../../const.ts';
+import {memo} from 'react';
+import {getAuthorizationStatus} from '../../store/user-process/selectors.ts';
+import {getCurrenOffer} from '../../store/offers-process/selectors.ts';
 
-type CommentsListProps = {
-  comments: CommentProps[];
-}
 
-function CommentsList({comments}: CommentsListProps) {
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+function CommentsList() {
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const comments = useAppSelector(getCurrenOffer).comments;
+
+  const sortedComments = comments.slice()
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).slice(0, MAX_COMMENT_LENGTH);
+
 
   return (
     <section className="offer__reviews reviews">
       <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{comments.length}</span></h2>
 
-      {comments.map((comment) => (
+      {sortedComments.map((comment) => (
         <Comment key={comment.id}
           comment={comment}
         />
@@ -28,4 +32,6 @@ function CommentsList({comments}: CommentsListProps) {
   );
 }
 
-export default CommentsList;
+const MemoCommentsList = memo(CommentsList);
+
+export default MemoCommentsList;

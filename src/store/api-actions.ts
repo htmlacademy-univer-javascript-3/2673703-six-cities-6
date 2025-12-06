@@ -3,112 +3,95 @@ import {createAsyncThunk} from '@reduxjs/toolkit';
 import {CitiesCardProps} from '../types/cities-card.ts';
 import {APIRoute, AppRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR} from '../const.ts';
 import {OfferProps} from '../types/offer.ts';
-import {AppDispatch} from '../types/state.ts';
+import {AppDispatch, State} from '../types/state.ts';
 import {
-  changeCommentLoadingStatus,
-  changeCurrentOfferLoadingStatus, changeNearbyLoadingStatus,
-  changeOffersLoadingStatus, fillComments, fillNearby,
-  loadCurrentOffer,
-  loadOffers,
   redirectToRoute,
-  requireAuthorization,
-  setError, setUserAvatar,
-  setUserEmail
 } from './action.ts';
 import {AuthData} from '../types/auth-data.ts';
 import {dropToken, setToken} from '../services/token.ts';
 import {UserProps} from '../types/user.ts';
-import {store} from './index.ts';
 import {CommentProps} from '../types/comment.ts';
 import {CommentData} from '../types/comment-data.ts';
-
+import {getFavoriteStatus} from '../utils/get-favorite-status.ts';
+import {setError} from './settings-process/setting-process.ts';
+import {ChangeStatus} from '../types/change-status.ts';
 
 type Extra = {
   extra: AxiosInstance;
   dispatch: AppDispatch;
 };
 
-export const fetchOffers = createAsyncThunk<void, undefined, Extra>(
+export const fetchOffers = createAsyncThunk<CitiesCardProps[], undefined, Extra>(
   'data/fetchOffers',
-  async (_arg, {dispatch, extra: api}) => {
-    dispatch(changeOffersLoadingStatus(true));
+  async (_arg, {extra: api}) => {
     const {data} = await api.get<CitiesCardProps[]>(APIRoute.Offers);
-    dispatch(changeOffersLoadingStatus(false));
-    dispatch(loadOffers(data));
+
+    return data;
   }
 );
 
 
-export const fetchOffer = createAsyncThunk<void, OfferProps['id'], Extra>(
+export const fetchOffer = createAsyncThunk<OfferProps | null, OfferProps['id'], Extra>(
   'data/fetchOffer',
   async (offerId, {dispatch, extra: api}) => {
-    dispatch(changeCurrentOfferLoadingStatus(true));
     try{
       const {data} = await api.get<OfferProps>(`${APIRoute.Offers}/${offerId}`);
-      dispatch(loadCurrentOffer(data));
+
+      return data;
     } catch (err) {
       dispatch(redirectToRoute(AppRoute.NotFound));
-      dispatch(loadCurrentOffer(null));
+      throw err;
     }
-    dispatch(changeCurrentOfferLoadingStatus(false));
   }
 );
 
-export const fetchComments = createAsyncThunk<void, OfferProps['id'], Extra>(
+export const fetchComments = createAsyncThunk<CommentProps[], OfferProps['id'], Extra>(
   'data/fetchComments',
-  async (offerId, {dispatch, extra: api}) => {
-    dispatch(changeCommentLoadingStatus(true));
+  async (offerId, {extra: api}) => {
     const {data} = await api.get<CommentProps[]>(`${APIRoute.Comments}/${offerId}`);
 
-    dispatch(fillComments(data));
-    dispatch(changeCommentLoadingStatus(false));
+    return data;
 
   }
 );
 
-export const fetchNearby = createAsyncThunk<void, OfferProps['id'], Extra>(
+export const fetchNearby = createAsyncThunk<CitiesCardProps[], OfferProps['id'], Extra>(
   'data/fetchNearby',
-  async (offerId, {dispatch, extra: api}) => {
-    dispatch(changeNearbyLoadingStatus(true));
+  async (offerId, {extra: api}) => {
     const {data} = await api.get<CitiesCardProps[]>(`${APIRoute.Offers}/${offerId}/nearby`);
 
-    dispatch(fillNearby(data));
-    dispatch(changeNearbyLoadingStatus(false));
+    return data;
   }
 
 );
 
-export const sendComment = createAsyncThunk<void, CommentData, Extra>(
+export const sendComment = createAsyncThunk<CommentProps, CommentData, Extra>(
   'data/sendComment',
-  async ({ id: offerId, comment, rating }, {dispatch, extra: api}) => {
-    await api.post<CommentProps>(`${APIRoute.Comments}/${offerId}`, {comment, rating: +rating});
+  async ({ id: offerId, comment, rating }, {extra: api}) => {
+    const {data} = await api.post<CommentProps>(`${APIRoute.Comments}/${offerId}`, {comment, rating: +rating});
 
-    dispatch(fetchComments(offerId));
+    return data;
+
   }
 );
 
-export const checkAuthAction = createAsyncThunk<void, undefined, Extra>(
+export const checkAuthAction = createAsyncThunk<UserProps, undefined, Extra>(
   'user/checkAuth',
-  async (_arg, {dispatch, extra: api}) => {
-    try {
-      const {data} = await api.get<UserProps>(APIRoute.Login);
-      dispatch(requireAuthorization(AuthorizationStatus.Auth));
-      dispatch(setUserEmail(data.email));
-      dispatch(setUserAvatar(data.avatarUrl));
-    } catch {
-      dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
-    }
+  async (_arg, {extra: api}) => {
+    const {data} = await api.get<UserProps>(APIRoute.Login);
+
+    return data;
   }
 );
 
-export const loginAction = createAsyncThunk<void, AuthData, Extra>(
+export const loginAction = createAsyncThunk<UserProps, AuthData, Extra>(
   'user/login',
   async ({login: email, password}, {dispatch, extra: api}) => {
-    const {data: {token}} = await api.post<UserProps>(APIRoute.Login, {email, password});
-    setToken(token);
-    dispatch(requireAuthorization(AuthorizationStatus.Auth));
-    dispatch(setUserEmail(email));
+    const {data} = await api.post<UserProps>(APIRoute.Login, {email, password});
+    setToken(data.token);
+
     dispatch(redirectToRoute(AppRoute.Main));
+    return data;
   }
 );
 
@@ -117,19 +100,52 @@ export const logoutAction = createAsyncThunk<void, undefined, Extra>(
   async (_arg, {dispatch, extra: api}) => {
     await api.delete<UserProps>(APIRoute.Logout);
     dropToken();
-    dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+    dispatch(redirectToRoute(AppRoute.Main));
   }
 );
 
 
 export const clearErrorAction = createAsyncThunk(
   'data/clearError',
-  () => {
+  (_arg, { dispatch }) => {
     setTimeout(
-      () => store.dispatch(setError(null)),
+      () => dispatch(setError(null)),
       TIMEOUT_SHOW_ERROR,
     );
   }
 );
 
+export const fetchFavorites = createAsyncThunk<CitiesCardProps[], undefined, Extra>(
+  'data/fetchFavorites',
+  async (_arg, {extra: api}) => {
+    const {data} = await api.get<CitiesCardProps[]>(APIRoute.Favorite);
+
+    return data;
+  }
+);
+
+
+export const changeFavorites = createAsyncThunk<ChangeStatus, OfferProps['id'], Extra>(
+  'data/changeFavorites',
+  async (id, {dispatch, extra: api, getState}) => {
+    const state = getState() as State;
+
+    const authorizationStatus = state.USER.authorizationStatus;
+
+    if (authorizationStatus !== AuthorizationStatus.Auth) {
+      dispatch(redirectToRoute(AppRoute.Login));
+      dispatch(setError('Not authorized'));
+    }
+
+    const status = getFavoriteStatus(id, state.OFFERS.favorites);
+
+    const {data} = await api.post<OfferProps>(`${APIRoute.Favorite}/${id}/${status}`);
+
+
+    return {
+      status,
+      offer: data,
+    };
+  }
+);
 

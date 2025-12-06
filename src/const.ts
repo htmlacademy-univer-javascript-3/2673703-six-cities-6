@@ -4,7 +4,7 @@ export enum AppRoute {
   Login = '/login',
   Favorites = '/favorites',
   Offer = '/offer',
-  NotFound = '/notFound',
+  NotFound = '/not-Found',
 }
 
 export enum AuthorizationStatus {
@@ -13,7 +13,7 @@ export enum AuthorizationStatus {
   Unknow = 'UNKNOW'
 }
 
-export const [MIN_COMMENT_LENGTH, MAX_COMMENT_LENGTH] = [50, 1945];
+export const [MIN_COMMENT_LENGTH, MAX_COMMENT_LENGTH] = [50, 300];
 
 export const URL_MARKER_DEFAULT = 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg';
 
@@ -24,7 +24,6 @@ export const Action = {
   CHANGE_CITY: 'CHANGE_CITY',
   FILL_OFFER: 'FILL_OFFER',
   CHANGE_SORTING: 'CHANGE_SORTING',
-  LOAD_OFFERS: 'LOAD_OFFERS',
   REQUIRE_AUTHORIZATION: 'REQUIRE_AUTHORIZATION',
   SET_ERROR: 'SET_ERROR',
   CHANGE_LOADING_STATUS: 'CHANGE_LOADING_STATUS',
@@ -38,6 +37,9 @@ export const Action = {
   LOAD_COMMENTS: 'LOAD_COMMENTS',
   CHANGE_NEARBY_LOADING_STATUS: 'CHANGE_NEARBY_LOADING_STATUS',
   FILL_NEARBY: 'FILL_NEARBY',
+  FILL_FAVORITES: 'FILL_FAVORITES',
+  RESET_USER: 'RESET_USER',
+  CHANGE_HEADER_LOADING_STATUS: 'CHANGE_HEADER_LOADING_STATUS',
 } as const;
 
 export const SortingOptionVariants = {
@@ -60,6 +62,15 @@ export enum APIRoute {
   Login = '/login',
   Logout = '/logout',
   Comments = '/comments',
+  Favorite = '/favorite',
 }
 
+export enum NameSpace {
+  Loading = 'Loading',
+  User = 'USER',
+  Offers = 'OFFERS',
+  Settings = 'SETTINGS',
+}
 
+export const MAX_NEARBY_OFFERS = 3;
+export const MAX_COMMENTS_COUNT = 10;

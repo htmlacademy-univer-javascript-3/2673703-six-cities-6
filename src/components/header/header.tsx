@@ -1,13 +1,23 @@
 ﻿import {Link} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../const.ts';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {logoutAction} from '../../store/api-actions.ts';
+import {fetchFavorites, logoutAction} from '../../store/api-actions.ts';
+import {memo, useEffect} from 'react';
+import {getAuthorizationStatus, getUser} from '../../store/user-process/selectors.ts';
+import {getFavorites} from '../../store/offers-process/selectors.ts';
 
 
 function HeaderWithAuthorization() {
-  const userEmail = useAppSelector((state) => state.userEmail);
-  const userAvatar = useAppSelector((state) => state.userAvatar);
+  const user = useAppSelector(getUser);
+  const favorites = useAppSelector(getFavorites);
   const dispatch = useAppDispatch();
+
+  const {email, avatar} = user;
+
+
+  useEffect(() => {
+    dispatch(fetchFavorites());
+  }, [email, avatar, dispatch]);
 
   const handleSignOut = () => {
     dispatch(logoutAction());
@@ -16,13 +26,15 @@ function HeaderWithAuthorization() {
   return (
     <ul className="header__nav-list">
       <li className="header__nav-item user">
-        <a className="header__nav-link header__nav-link--profile" href="#">
+        <div className="header__nav-link header__nav-link--profile">
           <div className="header__avatar-wrapper user__avatar-wrapper">
-            <img src={userAvatar!} />
+            <img src={avatar!} alt={'avatar'}/>
           </div>
-          <span className="header__user-name user__name">{userEmail}</span>
-          <span className="header__favorite-count">3</span>
-        </a>
+          <Link to={AppRoute.Favorites}>
+            <span className="header__user-name user__name">{email}</span>
+            <span className="header__favorite-count">{favorites.length}</span>
+          </Link>
+        </div>
       </li>
       <li className="header__nav-item" onClick={handleSignOut}>
         <a className="header__nav-link" >
@@ -48,7 +60,7 @@ function HeaderWithoutAuthorization() {
 }
 
 function Header() {
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   return (
     <header className="header">
@@ -61,9 +73,9 @@ function Header() {
           </div>
           <nav className="header__nav">
             {
-              authorizationStatus === AuthorizationStatus.NoAuth
-                ? <HeaderWithoutAuthorization />
-                : <HeaderWithAuthorization />
+              authorizationStatus === AuthorizationStatus.Auth
+                ? <HeaderWithAuthorization />
+                : <HeaderWithoutAuthorization />
             }
           </nav>
         </div>
@@ -72,4 +84,6 @@ function Header() {
   );
 }
 
-export default Header;
+const MemoHeader = memo(Header);
+
+export default MemoHeader;

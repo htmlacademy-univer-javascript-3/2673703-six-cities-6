@@ -76,14 +76,23 @@ function Login() {
             <form className="login__form form" action="" onSubmit={handleSubmit} ref={loginFormRef}>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
-                <input className="login__input form__input" type="email" name="email" placeholder="Email"
+                <input
+                  className="login__input form__input"
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  data-testid="loginElement"
                   required
                 />
               </div>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">Password</label>
-                <input className="login__input form__input" type="password" name="password"
+                <input
+                  className="login__input form__input"
+                  type="password"
+                  name="password"
                   placeholder="Password"
+                  data-testid="passwordElement"
                   required
                 />
               </div>

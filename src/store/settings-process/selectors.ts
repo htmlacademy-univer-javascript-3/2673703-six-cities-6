@@ -4,7 +4,7 @@ import {NameSpace} from '../../const.ts';
 import {ErrorT} from '../../types/errorT.ts';
 
 
-export const getSortingOption = (state: State): SortingOption => state[NameSpace.Settings].sortingOption;
+export const getSortingOption = (state: Pick<State, NameSpace.Settings>): SortingOption => state[NameSpace.Settings].sortingOption;
 
-export const getError = (state: State): ErrorT => state[NameSpace.Settings].error;
+export const getError = (state: Pick<State, NameSpace.Settings>): ErrorT => state[NameSpace.Settings].error;
 

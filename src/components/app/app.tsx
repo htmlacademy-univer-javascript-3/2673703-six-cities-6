@@ -8,8 +8,6 @@ import PrivateRoute from '../private-route/private-route.tsx';
 import Favorites from '../../pages/favorites/favorites.tsx';
 import {useAppSelector} from '../../hooks';
 import Spinner from '../spinner/spinner.tsx';
-import HistoryRouter from '../history-route/history-route.tsx';
-import browserHistory from '../../browser-history.ts';
 import {getAuthorizationStatus} from '../../store/user-process/selectors.ts';
 import {getLoadingStatus} from '../../store/loading-process/selectors.ts';
 
@@ -25,40 +23,38 @@ function App() {
   }
 
   return (
-    <HistoryRouter history={browserHistory}>
-      <Routes>
-        <Route
-          path={AppRoute.Main}
-          element={<Main />}
-        />
+    <Routes>
+      <Route
+        path={AppRoute.Main}
+        element={<Main />}
+      />
 
-        <Route
-          path={AppRoute.Login}
-          element={<Login />}
-        />
+      <Route
+        path={AppRoute.Login}
+        element={<Login />}
+      />
 
-        <Route
-          path={AppRoute.Favorites}
-          element={
-            <PrivateRoute authorizationStatus={authorizationStatus}>
-              <Favorites />
-            </PrivateRoute>
-          }
-        />
-
-
-        <Route
-          path={`${AppRoute.Offer}/:id`}
-          element={<Offer />}
-        />
+      <Route
+        path={AppRoute.Favorites}
+        element={
+          <PrivateRoute authorizationStatus={authorizationStatus}>
+            <Favorites />
+          </PrivateRoute>
+        }
+      />
 
 
-        <Route
-          path={'*'}
-          element={<NotFound/>}
-        />
-      </Routes>
-    </HistoryRouter>
+      <Route
+        path={`${AppRoute.Offer}/:id`}
+        element={<Offer />}
+      />
+
+
+      <Route
+        path={'*'}
+        element={<NotFound/>}
+      />
+    </Routes>
   );
 }
 

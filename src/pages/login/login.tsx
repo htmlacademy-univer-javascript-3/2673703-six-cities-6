@@ -3,7 +3,7 @@ import {AppRoute} from '../../const.ts';
 import {FormEvent, useRef} from 'react';
 import {useAppDispatch} from '../../hooks';
 import {loginAction} from '../../store/api-actions.ts';
-import {processErrorHandle} from '../../services/process-error-handle.ts';
+import {toast} from 'react-toastify';
 
 
 function Login() {
@@ -27,7 +27,7 @@ function Login() {
       }
     }
 
-    processErrorHandle('Invalid Password');
+    toast.warn('Invalid Password');
 
     return false;
 

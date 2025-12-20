@@ -48,7 +48,7 @@ function FavoriteCard({offer}: FavoriteCardProps) {
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">Nice, cozy, warm big bed apartment</a>
+          <a>{offer.title}</a>
         </h2>
         <p className="place-card__type">{offer.type}</p>
       </div>

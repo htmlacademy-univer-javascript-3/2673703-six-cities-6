@@ -1,5 +1,5 @@
 ﻿import {SortingOption} from '../../types/sorting-option.ts';
-import {ErrorT} from '../../types/errorT.ts';
+import {ErrorT} from '../../types/error-t.ts';
 
 
 export type SettingsProcessInitial = {

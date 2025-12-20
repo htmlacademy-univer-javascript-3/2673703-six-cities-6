@@ -2,19 +2,28 @@
 import useMap from './use-map.ts';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import {URL_MARKER_CURRENT, URL_MARKER_DEFAULT} from '../../const.ts';
+import {MAX_NEARBY_OFFERS, URL_MARKER_CURRENT, URL_MARKER_DEFAULT} from '../../const.ts';
 import {useAppSelector} from '../../hooks';
-import {getCity, getOffers} from '../../store/offers-process/selectors.ts';
+import {getCity, getCurrenOffer, getOffers} from '../../store/offers-process/selectors.ts';
 
 
 type MapProps = {
   chosenId: string | null;
   className: string;
+  nearby?: boolean;
 };
 
-function Map({chosenId, className}: MapProps) {
+function Map({chosenId, className, nearby}: MapProps) {
   const city = useAppSelector(getCity);
-  const offers = useAppSelector(getOffers).filter((offer) => offer.city.name === city.name);
+
+  const currentOffer = useAppSelector(getCurrenOffer);
+  const allOffers = useAppSelector(getOffers);
+
+  const chosenOffer = allOffers.filter((offers) => offers.id === currentOffer.offer?.id);
+
+  const offers = nearby
+    ? currentOffer.nearby.slice(0, MAX_NEARBY_OFFERS).concat(chosenOffer)
+    : allOffers.filter((offer) => offer.city.name === city.name);
 
   const mapRef: MutableRefObject<null | HTMLDivElement> = useRef(null);
   const map = useMap(mapRef, city);
@@ -55,7 +64,7 @@ function Map({chosenId, className}: MapProps) {
         markersRef.current.push(marker);
       });
     }
-  }, [map, offers, chosenId, city]);
+  }, [map, offers, chosenId, city, currentCustomIcon, defaultCustomIcon]);
 
   return (
     <section className={`${className} map`} ref={mapRef}></section>

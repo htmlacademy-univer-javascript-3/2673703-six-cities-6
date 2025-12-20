@@ -165,6 +165,7 @@ function Offer() {
           <Map
             chosenId={chosenId}
             className={'offer__map map'}
+            nearby
           />
         </section>
         <NeighbourhoodList/>

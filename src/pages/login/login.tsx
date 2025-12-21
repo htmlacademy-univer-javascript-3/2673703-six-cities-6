@@ -5,7 +5,7 @@ import {useAppDispatch} from '../../hooks';
 import {loginAction} from '../../store/api-actions.ts';
 import {toast} from 'react-toastify';
 import {getCities} from '../../mocks/cities.ts';
-import {getRandomCity} from '../../utils/get-random-City.ts';
+import {getRandomCity} from '../../utils/get-random-city.ts';
 import {changeCity} from '../../store/offers-process/offers-process.ts';
 
 

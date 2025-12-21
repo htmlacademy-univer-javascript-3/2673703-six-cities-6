@@ -67,7 +67,6 @@ export const makeFakeStore = (initialState?: Partial<State>): State => ({
   },
   [NameSpace.Settings]: {
     sortingOption: SortingOptionVariants.POPULAR,
-    error: null,
   },
   ...initialState ?? {},
 });

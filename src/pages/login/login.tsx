@@ -1,6 +1,6 @@
 ﻿import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const.ts';
-import {FormEvent, useRef} from 'react';
+import {FormEvent, useMemo, useRef} from 'react';
 import {useAppDispatch} from '../../hooks';
 import {loginAction} from '../../store/api-actions.ts';
 import {toast} from 'react-toastify';
@@ -58,7 +58,10 @@ function Login() {
   };
 
 
-  const randomCity = getRandomCity(getCities());
+  const randomCity = useMemo(
+    () => getRandomCity(getCities()),
+    []
+  );
 
   const randomCityClickHandle = () => {
     dispatch(changeCity(randomCity));

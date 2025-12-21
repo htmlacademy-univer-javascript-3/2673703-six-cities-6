@@ -1,7 +1,7 @@
 ﻿import {AxiosInstance} from 'axios';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {CitiesCardProps} from '../types/cities-card.ts';
-import {APIRoute, AppRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR} from '../const.ts';
+import {APIRoute, AppRoute, AuthorizationStatus} from '../const.ts';
 import {OfferProps} from '../types/offer.ts';
 import {AppDispatch, State} from '../types/state.ts';
 import {
@@ -13,8 +13,8 @@ import {UserProps} from '../types/user.ts';
 import {CommentProps} from '../types/comment.ts';
 import {CommentData} from '../types/comment-data.ts';
 import {getFavoriteStatus} from '../utils/get-favorite-status.ts';
-import {setError} from './settings-process/setting-process.ts';
 import {ChangeStatus} from '../types/change-status.ts';
+import {toast} from 'react-toastify';
 
 type Extra = {
   extra: AxiosInstance;
@@ -105,16 +105,6 @@ export const logoutAction = createAsyncThunk<void, undefined, Extra>(
 );
 
 
-export const clearErrorAction = createAsyncThunk(
-  'data/clearError',
-  (_arg, { dispatch }) => {
-    setTimeout(
-      () => dispatch(setError(null)),
-      TIMEOUT_SHOW_ERROR,
-    );
-  }
-);
-
 export const fetchFavorites = createAsyncThunk<CitiesCardProps[], undefined, Extra>(
   'data/fetchFavorites',
   async (_arg, {extra: api}) => {
@@ -134,7 +124,7 @@ export const changeFavorites = createAsyncThunk<ChangeStatus, OfferProps['id'], 
 
     if (authorizationStatus !== AuthorizationStatus.Auth) {
       dispatch(redirectToRoute(AppRoute.Login));
-      dispatch(setError('Not authorized'));
+      toast.warn('Not authorized');
     }
 
     const status = getFavoriteStatus(id, state.OFFERS.favorites);

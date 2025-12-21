@@ -1,5 +1,5 @@
 ﻿import {NameSpace, SortingOptionVariants} from '../../const.ts';
-import {getError, getSortingOption} from './selectors.ts';
+import {getSortingOption} from './selectors.ts';
 
 
 describe('SettingProcess selectors', () => {
@@ -15,12 +15,5 @@ describe('SettingProcess selectors', () => {
     const result = getSortingOption(state);
 
     expect(result).toBe(sortingOption);
-  });
-
-  it('should return error from state', () => {
-    const {error} = state[NameSpace.Settings];
-    const result = getError(state);
-
-    expect(result).toBe(error);
   });
 });

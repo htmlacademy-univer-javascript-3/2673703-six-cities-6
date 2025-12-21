@@ -3,12 +3,16 @@ import Header from '../../components/header/header.tsx';
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const.ts';
 import {CitiesCardProps} from '../../types/cities-card.ts';
-import {useAppSelector} from '../../hooks';
+import {useAppDispatch, useAppSelector} from '../../hooks';
 import FavoritesEmpty from './favorites-empty.tsx';
 import {getFavorites} from '../../store/offers-process/selectors.ts';
+import {changeCity} from '../../store/offers-process/offers-process.ts';
+import {CityProps} from '../../types/city.ts';
+import {getCities} from '../../mocks/cities.ts';
+import {useCallback} from 'react';
 
 function groupCards(offers: CitiesCardProps[]) {
-  const map = new Map<string, CitiesCardProps[]>();
+  const map = new Map<CityProps['name'], CitiesCardProps[]>();
   offers.forEach((card) => {
     const cityName = card.city.name;
     if (!map.has(cityName)) {
@@ -22,10 +26,23 @@ function groupCards(offers: CitiesCardProps[]) {
 
 function Favorites() {
   const favoritesOffers = useAppSelector(getFavorites);
+  const dispatch = useAppDispatch();
+
+  const handleCityClick = useCallback(
+    (cityName: CityProps['name']) => {
+      const city = getCities().find((c) => c.name === cityName);
+
+      if (city) {
+        dispatch(changeCity(city));
+      }
+    },
+    [dispatch]
+  );
 
   if (favoritesOffers.length === 0) {
     return <FavoritesEmpty />;
   }
+
 
   const groupedCards = groupCards(favoritesOffers);
   return (
@@ -43,9 +60,9 @@ function Favorites() {
 
                   <div className="favorites__locations locations locations--current">
                     <div className="locations__item">
-                      <a className="locations__item-link" href="#">
+                      <Link to={AppRoute.Main} className="locations__item-link" onClick={() => handleCityClick(city)}>
                         <span>{city}</span>
-                      </a>
+                      </Link>
                     </div>
                   </div>
 

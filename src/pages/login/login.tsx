@@ -4,6 +4,9 @@ import {FormEvent, useRef} from 'react';
 import {useAppDispatch} from '../../hooks';
 import {loginAction} from '../../store/api-actions.ts';
 import {toast} from 'react-toastify';
+import {getCities} from '../../mocks/cities.ts';
+import {getRandomCity} from '../../utils/get-random-City.ts';
+import {changeCity} from '../../store/offers-process/offers-process.ts';
 
 
 function Login() {
@@ -55,6 +58,13 @@ function Login() {
   };
 
 
+  const randomCity = getRandomCity(getCities());
+
+  const randomCityClickHandle = () => {
+    dispatch(changeCity(randomCity));
+  };
+
+
   return (
     <div className="page page--gray page--login">
       <header className="header">
@@ -101,6 +111,9 @@ function Login() {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
+              <Link to={AppRoute.Main} className="locations__item-link" onClick={randomCityClickHandle}>
+                <span>{randomCity.name}</span>
+              </Link>
             </div>
           </section>
         </div>

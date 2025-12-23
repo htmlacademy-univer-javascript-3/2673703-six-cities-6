@@ -10,7 +10,7 @@ function NotFound() {
       padding: '20px'
     }}
     >
-      <b>Такой страницы нет(</b>
+      <b>No page here(</b>
       <img
         src={'https://sticker-collection.com/stickers/plain/kremiruyte/thumbs/69934e90-0267-4626-9d2d-42c4b34a2ff7file_4702530.webp'}
         alt={'404 картинка'}

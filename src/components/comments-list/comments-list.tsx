@@ -1,7 +1,7 @@
 ﻿import CommentForm from '../comment-form/comment-form.tsx';
 import Comment from '../comment/comment.tsx';
 import {useAppSelector} from '../../hooks';
-import {AuthorizationStatus, MAX_COMMENT_LENGTH} from '../../const.ts';
+import {AuthorizationStatus, MAX_COMMENTS_COUNT} from '../../const.ts';
 import {memo} from 'react';
 import {getAuthorizationStatus} from '../../store/user-process/selectors.ts';
 import {getCurrenOffer} from '../../store/offers-process/selectors.ts';
@@ -12,7 +12,7 @@ function CommentsList() {
   const comments = useAppSelector(getCurrenOffer).comments;
 
   const sortedComments = comments.slice()
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).slice(0, MAX_COMMENT_LENGTH);
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).slice(0, MAX_COMMENTS_COUNT);
 
 
   return (

@@ -1,9 +1,12 @@
 ﻿import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const.ts';
-import {FormEvent, useRef} from 'react';
+import {FormEvent, useMemo, useRef} from 'react';
 import {useAppDispatch} from '../../hooks';
 import {loginAction} from '../../store/api-actions.ts';
-import {processErrorHandle} from '../../services/process-error-handle.ts';
+import {toast} from 'react-toastify';
+import {getCities} from '../../mocks/cities.ts';
+import {getRandomCity} from '../../utils/get-random-city.ts';
+import {changeCity} from '../../store/offers-process/offers-process.ts';
 
 
 function Login() {
@@ -27,7 +30,7 @@ function Login() {
       }
     }
 
-    processErrorHandle('Invalid Password');
+    toast.warn('Invalid Password');
 
     return false;
 
@@ -55,6 +58,16 @@ function Login() {
   };
 
 
+  const randomCity = useMemo(
+    () => getRandomCity(getCities()),
+    []
+  );
+
+  const randomCityClickHandle = () => {
+    dispatch(changeCity(randomCity));
+  };
+
+
   return (
     <div className="page page--gray page--login">
       <header className="header">
@@ -76,14 +89,23 @@ function Login() {
             <form className="login__form form" action="" onSubmit={handleSubmit} ref={loginFormRef}>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
-                <input className="login__input form__input" type="email" name="email" placeholder="Email"
+                <input
+                  className="login__input form__input"
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  data-testid="loginElement"
                   required
                 />
               </div>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">Password</label>
-                <input className="login__input form__input" type="password" name="password"
+                <input
+                  className="login__input form__input"
+                  type="password"
+                  name="password"
                   placeholder="Password"
+                  data-testid="passwordElement"
                   required
                 />
               </div>
@@ -92,6 +114,9 @@ function Login() {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
+              <Link to={AppRoute.Main} className="locations__item-link" onClick={randomCityClickHandle}>
+                <span>{randomCity.name}</span>
+              </Link>
             </div>
           </section>
         </div>
